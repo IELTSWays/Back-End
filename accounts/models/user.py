@@ -16,7 +16,7 @@ class User(AbstractUser):
     )
 
     username = None
-    #Condidate_code(automaticly generated)
+    candidate_code = models.CharField(max_length=128,unique=True,blank=True,null=True)
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
@@ -35,4 +35,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return str(self.phone_number) +' | '+ str(self.first_name) +' | '+ str(self.last_name)
+
+    def save(self, *args, **kwargs):
+        if not self.candidate_code:
+            self.candidate_code = random_N_chars_str(8)
+            # Generate ID once, then check the db. If exists, keep trying.
+        super(User, self).save()
+
+
 
