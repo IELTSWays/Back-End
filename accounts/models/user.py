@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from accounts.models.user_manager import UserManager
+from city.models import City,Province
 
 class User(AbstractUser):
 
@@ -15,14 +16,15 @@ class User(AbstractUser):
     )
 
     username = None
+    #Condidate_code(automaticly generated)
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
     email = models.EmailField(max_length=70,null=True,blank=True,unique=True)
     first_Language = models.CharField(max_length=50,null=True,blank=True)
     birth_date = models.DateField(null=True,blank=True)
-    #province =
-    #city =
+    province = models.ForeignKey(Province,on_delete=models.CASCADE,null=True,blank=True)
+    city = models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
