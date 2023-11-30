@@ -6,11 +6,6 @@ from config.settings import ACCESS_TTL
 from accounts.serializers import UserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import User
-from letter.models import Letter
-from letter.serializers import LetterSerializer
-from invoice.models import Invoice
-from invoice.serializers import InvoiceSerializer
-
 
 class OverView(APIView):
     serializer_class = UserSerializer
