@@ -1,6 +1,6 @@
-# Istro Back-end
+# IELTSWays Back-end
 
-### Istro Customers & Management panel
+### IELTS Online Practice Tests 
 
 
 [![](https://img.shields.io/badge/python-3.10-orange)](https://www.python.org/)
@@ -13,7 +13,7 @@
 1. Clone this repository
 
 ```bash
-git clone https://github.com/rizostudio/istro-back
+git clone https://github.com/IELTSWays/Back-End.git
 ```
 
 2. Install dependencies
