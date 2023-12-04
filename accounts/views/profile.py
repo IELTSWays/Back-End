@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 import re
 from django.utils.translation import gettext as _
 from rest_framework.throttling import AnonRateThrottle
-from accounts.functions import send_sms_otp, send_sms_pass
+from accounts.functions import send_sms_otp
 from accounts.models import OneTimePassword, User
 
 
@@ -35,51 +35,3 @@ class Profile(APIView):
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
-
-
-
-phone_number_regex = re.compile(r"^09\d{9}")
-class ChangePhone(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, *args, **kwargs):
-        phone_number = self.request.data.get("phone_number")
-        if not phone_number_regex.match(phone_number):
-            return Response({"success": False, "errors": [_("invalid phone number")]},status=status.HTTP_400_BAD_REQUEST,)
-        if OneTimePassword.otp_exist(phone_number):
-            return Response({"success": False, "errors": [_("otp already sent")]},status=status.HTTP_400_BAD_REQUEST,)
-        if User.objects.filter(phone_number=phone_number).exists():
-            return Response({"success": False, "errors": [_("user with this phone number already exists")]},status=status.HTTP_400_BAD_REQUEST,)
-
-        otp = OneTimePassword(self.request.user)
-        print(otp.code)
-        done = send_sms_otp(phone_number, otp.code)
-
-        if not done:
-            return Response({"success": False, "errors": [_("error in sending otp")]},status=status.HTTP_400_BAD_REQUEST)
-        return Response({"success": True, "data": {"otp_id": otp.otp_id}, }, status=status.HTTP_200_OK)
-
-
-
-class ChangePhoneVerifyOTP(APIView):
-    permission_classes = []
-
-    def post(self, *args, **kwargs):
-        otp_id = self.request.data.get("otp_id", "")
-        otp_code = self.request.data.get("otp_code", "")
-        try:
-            user_id = OneTimePassword.verify_otp(otp_id, otp_code)
-        except ValueError:
-            return Response({"success": False, "errors": [_("OTP is invalid")]},status=status.HTTP_400_BAD_REQUEST,)
-
-        try:
-            user = get_user(id=user_id)
-        except:
-            return Response({"success": False, "errors": [_("User not found")]},status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            user.phone_number = self.request.data.get("phone_number", "")
-            user.save()
-            return Response({"success": True, "data": "User phone number changed successfully."},status=status.HTTP_200_OK)
-        except:
-            return Response({"success": False, "errors": [_("Something went wrong,")]},status=status.HTTP_400_BAD_REQUEST)

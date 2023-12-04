@@ -1,12 +1,10 @@
 from django.urls import path
-from accounts.views import ( Logout,Profile,Refresh,RefreshAccess,Register,SendOTP,VerifyOTP,UserValidationView,
-                             NormalLogin,NewPass,ChangePass,ForgotPassSendOTP,ForgotPassVerifyOTP,OverView,ChangePhone,
-                             ChangePhoneVerifyOTP,ChangePassword,NormalValidationView,AdminValidationView,StaffValidationView )
+from accounts.views import Logout,Profile,Refresh,RefreshAccess,Register,SendOTP,VerifyOTP,UserValidationView
 
 urlpatterns = [
-    path("user/otp", SendOTP.as_view(), name="send_otp"),
-    path("user/otp/verify", VerifyOTP.as_view(), name="verify_otp"),
-    #path("refresh", Refresh.as_view(), name="refresh"),
+    path("otp", SendOTP.as_view(), name="send_otp"),
+    path("otp/verify", VerifyOTP.as_view(), name="verify_otp"),
+    path("refresh", Refresh.as_view(), name="refresh"),
     #path("refresh-access", RefreshAccess.as_view(), name="refresh-access"),
     #path("user/register", Register.as_view(), name="register"),
     #path("user/logout", Logout.as_view(), name="logout"),

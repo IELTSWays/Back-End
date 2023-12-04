@@ -29,7 +29,6 @@ class VerifyOTP(APIView):
 
         data = {
             "refresh_token": refresh,
-            "user_type": user.user_type,
             "user_data": UserSerializer(user).data,
         }
         response = Response(
