@@ -7,7 +7,7 @@ from accounts.models import User
 from ticket.models import Ticket
 
 
-class TicketList(APIView):
+class Ticket(APIView):
     serializer_class = GetTicketSerializer
     permission_classes = [IsAuthenticated]
     def get(self, *args, **kwargs):
@@ -26,3 +26,11 @@ class TicketList(APIView):
 
 
 
+
+class TicketList(APIView):
+    serializer_class = GetTicketSerializer
+    permission_classes = [IsAuthenticated]
+    def get(self, *args, **kwargs):
+        tickets = Ticket.objects.all()
+        serializer = self.serializer_class(tickets, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

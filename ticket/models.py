@@ -1,7 +1,6 @@
 from django.db import models
 from accounts.models import User
 
-
 class Ticket(models.Model):
     STATUS=(('new','new'),('pending','pending'),('canceled','canceled'),('completed','completed'))
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
