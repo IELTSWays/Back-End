@@ -26,7 +26,6 @@ class Ticket(APIView):
 
 
 
-
 class TicketList(APIView):
     serializer_class = GetTicketSerializer
     permission_classes = [IsAuthenticated]
