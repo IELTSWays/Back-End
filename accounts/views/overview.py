@@ -13,16 +13,12 @@ class OverView(APIView):
 
     def get(self, *args, **kwargs):
         user=self.request.user
-
         data = {
-            "user_id": user.id,
-            "name": user.name,
-            "user_type": user.user_type,
-            "phone_number": user.phone_number,
-            "factors_count": Invoice.objects.filter(user=user,status="پرداخت نشده").count(),
-            "letters_count": Letter.objects.filter(user=user).count(),
-            "factors": InvoiceSerializer(Invoice.objects.filter(user=user,status="پرداخت نشده"),many=True).data,
-            "letters": LetterSerializer(Letter.objects.filter(user=user),many=True).data,
+            "user": self.serializer_class(user).data,
+            "ticket_count": None, #Invoice.objects.filter(user=user,status="پرداخت نشده").count(),
+            "tickets": None, #InvoiceSerializer(Invoice.objects.filter(user=user,status="پرداخت نشده"),many=True).data,
+            "exams": None,
+            "payments": None,
         }
 
-        return Response({"success": True,"data": data,},status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)

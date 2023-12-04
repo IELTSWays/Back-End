@@ -5,7 +5,7 @@ from accounts.functions import get_user_data, login
 from accounts.models import OneTimePassword
 from accounts.selectors import get_user
 from config.settings import ACCESS_TTL
-from accounts.serializers import UserSerializer, ChangePhoneSerializer
+from accounts.serializers import UserSerializer, UserAllFieldsSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 import re
 from django.utils.translation import gettext as _
@@ -17,12 +17,12 @@ from accounts.models import OneTimePassword, User
 
 
 class Profile(APIView):
-    serializer_class = UserSerializer
+    serializer_class = UserAllFieldsSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, *args, **kwargs):
         profile = User.objects.get(id=self.request.user.id)
-        serializer = UserSerializer(profile)
+        serializer = self.serializer_class(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, *args, **kwargs):
