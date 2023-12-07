@@ -10,6 +10,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("ticket/", include("ticket.urls")),
+    path("city/", include("city.urls")),
+    #path("book/", include("book.urls")),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

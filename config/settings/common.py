@@ -43,6 +43,7 @@ LOCAL_APPS = (
     "accounts",
     "ticket",
     "city",
+    "book",
     'django_filters',
 )
 
