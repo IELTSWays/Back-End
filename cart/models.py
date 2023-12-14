@@ -1,7 +1,7 @@
 from accounts.models import User
 from django.db import models
 from book.models import Book
-from .utils import random_N_chars_str
+from accounts.utils import random_N_chars_str
 
 
 
