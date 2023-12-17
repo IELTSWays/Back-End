@@ -19,6 +19,7 @@ class User(AbstractUser):
 
     username = None
     candidate_code = models.CharField(max_length=128,unique=True,blank=True,null=True)
+    national_code = models.CharField(max_length=50,null=True,blank=True)
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
