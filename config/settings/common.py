@@ -36,6 +36,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     "rest_framework",
     "django_filters",
+    "corsheaders",
 )
 
 # Apps specific for this project go here.
@@ -189,7 +190,7 @@ MAX_UPLOAD_SIZE = 5242880
 # CORSHEADERS CONFIGURATION
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://localhost:5173"]
-CSRF_TRUSTED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://localhost:5173"]
+CSRF_TRUSTED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1"]
 CORS_ORIGIN_ALLOW_ALL = True
 #CORS_ORIGIN_ALLOW_ALL = True
 #CORS_REPLACE_HTTPS_REFERER = True
