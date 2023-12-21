@@ -12,3 +12,11 @@ class ReserveTimesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReserveTimes
         fields = "__all__"
+
+
+
+class TeachersReserveTimesSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
+    class Meta:
+        model = ReserveTimes
+        fields = "__all__"

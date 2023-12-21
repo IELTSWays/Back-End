@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from teacher.serializers import TeacherSerializer,ReserveTimesSerializer
+from teacher.serializers import TeacherSerializer,ReserveTimesSerializer, TeachersReserveTimesSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import User
 from teacher.models import Teacher,ReserveTimes
@@ -31,6 +31,7 @@ class TeacherItem(APIView):
 
 
 
+
 class ReserveTimes(APIView):
     serializer_class = ReserveTimesSerializer
     permission_classes = [AllowAny]
@@ -38,4 +39,16 @@ class ReserveTimes(APIView):
         times = models.ReserveTimes.objects.all()
         serializer = self.serializer_class(times, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+class TeacherReserveTimes(APIView):
+    serializer_class = TeachersReserveTimesSerializer
+    permission_classes = [AllowAny]
+    def get(self, *args, **kwargs):
+        times = models.ReserveTimes.objects.all()
+        serializer = self.serializer_class(times, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
