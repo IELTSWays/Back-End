@@ -15,6 +15,7 @@ urlpatterns = [
     path("exam/", include("exam.urls")),
     path("cart/", include("cart.urls")),
     path("payment/", include("payment.urls")),
+    path("teacher/", include("teacher.urls")),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

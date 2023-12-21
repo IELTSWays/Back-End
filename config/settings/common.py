@@ -49,6 +49,7 @@ LOCAL_APPS = (
     "exam",
     "cart",
     "payment",
+    "teacher",
 )
 
 
