@@ -8,9 +8,8 @@ class Test(models.Model):
     type_choices = (("academic","academic"),("general","general"))
     type = models.CharField(choices=type_choices, max_length=128)
     Book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    questions = models.TextField()
+    questions = models.JSONField(null=True,blank=True)
 
     def __str__(self):
         return str(self.skill) +'|'+ str(self.type) +'|'+ str(self.id)
-
 
