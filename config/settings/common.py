@@ -191,12 +191,11 @@ MAX_UPLOAD_SIZE = 5242880
 
 # CORSHEADERS CONFIGURATION
 ALLOWED_HOSTS = ['*']
-CORS_ALLOWED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://localhost:5173", "https://195.214.235.46:8000"]
-CSRF_TRUSTED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://localhost:5173", "https://195.214.235.46:8000"]
+CORS_ALLOWED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://195.214.235.46", "http://localhost", "http://127.0.0.1"]
 CORS_ORIGIN_ALLOW_ALL = True
-#CORS_ORIGIN_ALLOW_ALL = True
-#CORS_REPLACE_HTTPS_REFERER = True
-#CORS_ALLOW_CREDENTIALS = True
+CORS_REPLACE_HTTPS_REFERER = True
+CORS_ALLOW_CREDENTIALS = True
 # END CORSHEADERS CONFIGURATION
 
 
