@@ -66,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "utilities.middlware.CrossDomainSessionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -201,8 +202,8 @@ SESSION_COOKIE_SECURE=True
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SAMESITE = False
-SESSION_COOKIE_DOMAIN = "http://195.214.235.46:8000"
-CORS_ORIGIN_WHITELIST = ("http://195.214.235.46:8000", "https://195.214.235.46", "http://127.0.0.1")
+SESSION_COOKIE_DOMAIN = ["http://195.214.235.46:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://195.214.235.46"]
+CORS_ORIGIN_WHITELIST = ["http://195.214.235.46:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://195.214.235.46"]
 # END CORSHEADERS CONFIGURATION
 
 
