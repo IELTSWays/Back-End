@@ -10,6 +10,7 @@ from config.settings import ACCESS_TTL
 from accounts.serializers import UserSerializer
 
 
+
 class VerifyOTP(APIView):
     permission_classes = []
 

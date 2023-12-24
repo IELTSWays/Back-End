@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = (
     "rest_framework",
     "django_filters",
     "corsheaders",
+    "gunicorn"
 )
 
 # Apps specific for this project go here.
@@ -197,7 +198,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_REPLACE_HTTPS_REFERER = True
 CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = False
+SESSION_COOKIE_DOMAIN = "http://195.214.235.46:8000"
 # END CORSHEADERS CONFIGURATION
+
 
 
 
