@@ -66,7 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "utilities.middlware.CrossDomainSessionMiddleware",
+    #"utilities.middlware.CrossDomainSessionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
