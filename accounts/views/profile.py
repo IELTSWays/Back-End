@@ -21,8 +21,7 @@ class Profile(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, *args, **kwargs):
-        profile = User.objects.get(id=self.request.user.id)
-        serializer = self.serializer_class(profile)
+        serializer = self.serializer_class(self.request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, *args, **kwargs):

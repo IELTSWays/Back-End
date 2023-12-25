@@ -158,7 +158,7 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         #"LOCATION": get_env("REDIS_URL"),
-        "LOCATION": "redis://redis:6379/1",
+        "LOCATION": "redis://0.0.0.0:6379/1",
     }
 }
 # END CACHING CONFIGURATION
