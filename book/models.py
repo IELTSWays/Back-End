@@ -5,7 +5,7 @@ from django.utils.html import format_html
 class Book(models.Model):
     name = models.CharField(max_length=256,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
-    cover_photo = models.ImageField(upload_to='books',null=True,blank=True)
+    cover_photo = models.ImageField(upload_to='books')
     academic = models.BooleanField(default=False)
     general = models.BooleanField(default=True)
 

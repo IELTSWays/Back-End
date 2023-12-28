@@ -1,10 +1,9 @@
 from django.urls import path
-from ticket.views import Ticket, TicketList, ticketItem
+from exam.views import AddQuestion
 
 urlpatterns = [
-    path("tickets", Ticket.as_view(), name="tickets"),
-    path("ticket-list", TicketList.as_view(), name="ticket-list"),
-    path('ticket-item/<int:id>', ticketItem.as_view(), name='ticket-item'),
+    path("add-question", AddQuestion.as_view(), name="add-question"),
+    path('test/<int:id>', AddQuestion.as_view(), name='test'),
 ]
 
 
