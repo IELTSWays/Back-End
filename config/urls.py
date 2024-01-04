@@ -13,6 +13,7 @@ urlpatterns = [
     path("city/", include("city.urls")),
     path("book/", include("book.urls")),
     path("exam/", include("exam.urls")),
+    path("answer/", include("answers.urls")),
     path("cart/", include("cart.urls")),
     path("payment/", include("payment.urls")),
     path("teacher/", include("teacher.urls")),

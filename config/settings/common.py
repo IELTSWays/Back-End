@@ -37,7 +37,8 @@ THIRD_PARTY_APPS = (
     "rest_framework",
     "django_filters",
     "corsheaders",
-    "gunicorn"
+    "gunicorn",
+    "ckeditor"
 )
 
 # Apps specific for this project go here.
@@ -51,6 +52,7 @@ LOCAL_APPS = (
     "cart",
     "payment",
     "teacher",
+    "answers",
 )
 
 
@@ -189,7 +191,7 @@ REST_FRAMEWORK = {
 
 MAX_UPLOAD_SIZE = 5242880
 
-
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # CORSHEADERS CONFIGURATION
 ALLOWED_HOSTS = ['*']
