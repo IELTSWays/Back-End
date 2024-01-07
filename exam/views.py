@@ -1,9 +1,11 @@
 from exam.models import Test
-from exam.serializers import QuestionSerializer, TestSerializer
+from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json
+
 
 
 class AddQuestion(APIView):
@@ -70,4 +72,27 @@ class Answer(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    def post(self, request, *args, **kwargs):
+        test = Test.objects.get(test_id=self.kwargs["id"])
+
+        if self.request.user != test.user:
+            return Response("You are not allowed to take this exam.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        if test.test_done == True:
+            return Response("You are not allowed to change, the test is finished.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        serializer = AnswerSerializer(test, data=self.request.data)
+        if serializer.is_valid():
+
+            new_ans = test.answers
+            new_ans.update(self.request.data['answers'])
+            test.answers = new_ans
+            test.save()
+            serialized_data = self.serializer_class(test).data
+
+            return Response(serialized_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
 

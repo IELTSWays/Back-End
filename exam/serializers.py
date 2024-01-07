@@ -7,6 +7,12 @@ class TestSerializer(serializers.ModelSerializer):
         model = Test
         fields = "__all__"
 
+
+class AnswerSerializer(serializers.Serializer):
+    test_done = serializers.BooleanField()
+    answers = serializers.JSONField()
+
+
 class QuestionSerializer(serializers.Serializer):
     number = serializers.IntegerField()
     type = serializers.CharField()
