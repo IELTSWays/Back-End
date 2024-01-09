@@ -43,15 +43,44 @@ class StartTest(APIView):
 
 
 
+class StartTestNew(APIView):
+    serializer_class = TestSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        data = self.request.data
+        data['user'] = self.request.user.id
+
+        if data['skill'] == 'listening':
+            skill = 'L'
+        elif data['skill'] == 'reading':
+            skill = 'R'
+        else:
+            skill = 'W'
+
+        data['name'] = 'B'+str(data['book'])+str(skill)+'T'+str(data['test'])
+
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
 
 class Answer(APIView):
     serializer_class = TestSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        test = Test.objects.get(test_id=self.kwargs["id"])
-        serialized_data = self.serializer_class(test).data
-        return Response(serialized_data, status=status.HTTP_200_OK)
+        try:
+            test = Test.objects.get(test_id=self.kwargs["id"])
+            serialized_data = self.serializer_class(test).data
+            return Response(serialized_data, status=status.HTTP_200_OK)
+        except:
+            return Response("Test not found, try again", status=status.HTTP_400_BAD_REQUEST)
+
 
     def patch(self, request, *args, **kwargs):
         test = Test.objects.get(test_id=self.kwargs["id"])
