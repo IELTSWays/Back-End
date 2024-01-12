@@ -9,7 +9,8 @@ from accounts.models import OneTimePassword, User
 from django.http import HttpResponse
 from telegram import Bot
 import asyncio
-
+import requests
+import telebot
 
 phone_number_regex = re.compile(r"^09\d{9}")
 
@@ -90,7 +91,25 @@ class SendOTPTelegram(APIView):
         print(otp.code)
         code = str(otp.code)
 
-        send_tele_otp()
+
+
+        bot = telebot.TeleBot('6589901044:AAFl2ct4kggaT-rZR0rtEkfAKJ6VS1OvZuk')
+        chat_id = 'dorostkarnima'
+        message = 'hiiii'
+        bot.send_message(chat_id, message)
+
+
+
+        '''
+        bot_token = '6589901044:AAFl2ct4kggaT-rZR0rtEkfAKJ6VS1OvZuk'
+        bot_chatID = 'dorostkarnima'
+        bot_message = 'hiiiii'
+        send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+        response = requests.get(send_text)
+        return response.json()
+        '''
+
+        #send_tele_otp()
 
         return Response({"success": True,"data": {"otp_id": otp.otp_id}}, status=status.HTTP_200_OK)
 

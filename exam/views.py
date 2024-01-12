@@ -61,6 +61,8 @@ class StartTestNew(APIView):
 
         data['name'] = 'B'+str(data['book'])+str(skill)+'T'+str(data['test'])
 
+        data['answers'] = {}
+
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -203,6 +205,10 @@ class Report(APIView):
                 if test.skill == "reading" and test.type == "academic":
                     if raw_score == 0:
                         band_score = 0
+                    elif raw_score == 1:
+                        band_score = 1
+                    elif raw_score >= 2 and raw_score <= 3:
+                        band_score = 2
                     elif raw_score >= 4 and raw_score <= 5:
                         band_score = 2.5
                     elif raw_score >= 6 and raw_score <= 7:
@@ -211,26 +217,62 @@ class Report(APIView):
                         band_score = 3.5
                     elif raw_score >= 10 and raw_score <= 12:
                         band_score = 4
-                    elif raw_score >= 13 and raw_score <= 15:
+                    elif raw_score >= 13 and raw_score <= 14:
                         band_score = 4.5
-                    elif raw_score >= 16 and raw_score <= 17:
+                    elif raw_score >= 15 and raw_score <= 18:
                         band_score = 5
-                    elif raw_score >= 18 and raw_score <= 22:
+                    elif raw_score >= 19 and raw_score <= 22:
                         band_score = 5.5
-                    elif raw_score >= 23 and raw_score <= 25:
+                    elif raw_score >= 23 and raw_score <= 26:
                         band_score = 6
-                    elif raw_score >= 26 and raw_score <= 29:
+                    elif raw_score >= 27 and raw_score <= 29:
                         band_score = 6.5
-                    elif raw_score >= 30 and raw_score <= 31:
+                    elif raw_score >= 30 and raw_score <= 32:
                         band_score = 7
-                    elif raw_score >= 32 and raw_score <= 34:
+                    elif raw_score >= 33 and raw_score <= 34:
                         band_score = 7.5
                     elif raw_score >= 35 and raw_score <= 36:
                         band_score = 8
-                    elif raw_score >= 37 and raw_score <= 39:
+                    elif raw_score >= 37 and raw_score <= 38:
                         band_score = 8.5
                     else:
                         band_score = 9
+
+                    if test.skill == "reading" and test.type == "general":
+                        if raw_score == 0:
+                            band_score = 0
+                        elif raw_score == 1:
+                            band_score = 1
+                        elif raw_score >= 2 and raw_score <= 5:
+                            band_score = 2
+                        elif raw_score >= 6 and raw_score <= 8:
+                            band_score = 2.5
+                        elif raw_score >= 9 and raw_score <= 11:
+                            band_score = 3
+                        elif raw_score >= 12 and raw_score <= 14:
+                            band_score = 3.5
+                        elif raw_score >= 15 and raw_score <= 18:
+                            band_score = 4
+                        elif raw_score >= 19 and raw_score <= 22:
+                            band_score = 4.5
+                        elif raw_score >= 23 and raw_score <= 26:
+                            band_score = 5
+                        elif raw_score >= 27 and raw_score <= 29:
+                            band_score = 5.5
+                        elif raw_score >= 30 and raw_score <= 31:
+                            band_score = 6
+                        elif raw_score >= 32 and raw_score <= 33:
+                            band_score = 6.5
+                        elif raw_score >= 34 and raw_score <= 35:
+                            band_score = 7
+                        elif raw_score == 36:
+                            band_score = 7.5
+                        elif raw_score >= 37 and raw_score <= 38:
+                            band_score = 8
+                        elif raw_score == 39:
+                            band_score = 8.5
+                        else:
+                            band_score = 9
 
             return Response(band_score, status=status.HTTP_200_OK)
         except:
