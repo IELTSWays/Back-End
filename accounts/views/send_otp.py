@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from telegram import Bot
 import asyncio
 import requests
-import telebot
+#import telebot
 
 phone_number_regex = re.compile(r"^09\d{9}")
 
