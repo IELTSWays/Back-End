@@ -22,3 +22,5 @@ factory-boy==3.2.1
 django-mptt==0.15.0
 python-telegram-bot
 django-ckeditor
+telebot
+telethon

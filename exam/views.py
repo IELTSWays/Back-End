@@ -6,6 +6,40 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import json
 from answers.models import TestCorrectAnswer
+from rest_framework.generics import GenericAPIView
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
+from rest_framework import pagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
+class UserTests(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+    serializer_class = TestSerializer
+    #queryset = Test.objects.all()
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['user', 'created_at', 'skill', 'type']
+    search_fields = ['test_id', 'name']
+    ordering_fields = ['test_id', 'created_at', 'id']
+
+    def get(self, *args, **kwargs):
+        user_tests = Test.objects.filter(user=self.request.user)
+        tests = self.filter_queryset(user_tests)
+        page = self.paginate_queryset(tests)
+        if page is not None:
+            serializer = TestSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = TestSerializer(tests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 
