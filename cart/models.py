@@ -1,6 +1,6 @@
 from accounts.models import User
 from django.db import models
-from book.models import Book
+from exam.models import Test
 from accounts.utils import random_N_chars_str
 
 
@@ -10,7 +10,7 @@ class Order(models.Model):
     status = models.CharField(choices=choices,default="new",max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_id = models.CharField(max_length=128,unique=True,blank=True)
-    books = models.ManyToManyField(Book)
+    test = models.ManyToManyField(Test)
     total_price = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
