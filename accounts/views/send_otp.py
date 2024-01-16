@@ -12,7 +12,7 @@ import requests
 import telebot
 from telegram import Bot
 from accounts.views.telegram_utils import send_telegram_message
-import pywhatkit
+#import pywhatkit
 
 
 
