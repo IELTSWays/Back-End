@@ -4,5 +4,4 @@ from django.db import models
 
 class TestAdmin(admin.ModelAdmin):
     list_display = ('test_id','name','skill', 'type', 'book')
-    formfield_overrides = { models.TextField: {'widget': CKEditorWidget},}
 admin.site.register(Test, TestAdmin)
