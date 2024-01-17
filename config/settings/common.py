@@ -38,7 +38,7 @@ THIRD_PARTY_APPS = (
     "django_filters",
     "corsheaders",
     "gunicorn",
-    "ckeditor"
+    "oauth2_provider",
 )
 
 # Apps specific for this project go here.
@@ -72,6 +72,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+
+
 
 TEMPLATES = [
     {
@@ -179,9 +181,21 @@ ACCESS_TTL = int(get_env("ACCESS_TTL", default="1"))  # days
 REFRESH_TTL = int(get_env("REFRESH_TTL", default="2"))  # days
 # END JWT SETTINGS
 
+
+
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
+
+
+
 # REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("accounts.backends.JWTAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "accounts.backends.JWTAuthentication",
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication'
+    ),
     "DEFAULT_THROTTLE_RATES": {"otp": get_env("OTP_THROTTLE_RATE", default="10/min"), },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
