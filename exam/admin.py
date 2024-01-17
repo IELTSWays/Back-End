@@ -1,6 +1,5 @@
 from django.contrib import admin
 from exam.models import Test
-from ckeditor.widgets import CKEditorWidget
 from django.db import models
 
 class TestAdmin(admin.ModelAdmin):
