@@ -1,6 +1,5 @@
 from django.db import models
 from book.models import Book
-from ckeditor.fields import RichTextField
 from exam.utils import random_N_chars_str
 from accounts.models import User
 
