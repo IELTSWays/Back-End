@@ -1,5 +1,4 @@
 from django.db import models
-from ckeditor.fields import RichTextField
 from exam.models import Test
 from accounts.models import User
 from book.models import Book
