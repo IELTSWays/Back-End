@@ -11,7 +11,8 @@ from rest_framework.pagination import LimitOffsetPagination, PageNumberPaginatio
 from rest_framework import pagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-
+import datetime
+from django.utils import timezone
 
 
 class CustomPagination(PageNumberPagination):
@@ -96,7 +97,46 @@ class StartTestNew(APIView):
 
         data['name'] = 'B'+str(data['book'])+str(skill)+'T'+str(data['test'])
 
-        data['answers'] = {}
+        data['answers'] = {
+            "00001": None,
+            "00002": None,
+            "00003": None,
+            "00004": None,
+            "00005": None,
+            "00006": None,
+            "00007": None,
+            "00008": None,
+            "00009": None,
+            "00010": None,
+            "00011": None,
+            "00012": None,
+            "00013": None,
+            "00014": None,
+            "00015": None,
+            "00016": None,
+            "00017": None,
+            "00018": None,
+            "00019": None,
+            "00021": None,
+            "00022": None,
+            "00023": None,
+            "00024": None,
+            "00025": None,
+            "00026": None,
+            "00027": None,
+            "00028": None,
+            "00029": None,
+            "00030": None,
+            "00031": None,
+            "00032": None,
+            "00033": None,
+            "00034": None,
+            "00035": None,
+            "00036": None,
+            "00037": None,
+            "00038": None,
+            "00039": None,
+            "00040": None }
 
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
@@ -134,6 +174,15 @@ class Answer(APIView):
         if test.test_done == True:
             return Response("You are not allowed to change, the test is finished.",status=status.HTTP_406_NOT_ACCEPTABLE)
 
+        delta = timezone.now() - test.created_at
+        delta_time_minutes = delta.total_seconds() / 60
+
+        if test.skill == "listening" and delta_time_minutes >= 360:
+            return Response("Your exam time is over, listening test time is 6 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        if test.skill == "reading" and delta_time_minutes >= 480:
+            return Response("Your exam time is over, reading test time is 8 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
         serializer = self.serializer_class(test, data=data)
         if serializer.is_valid():
             serializer.save()
@@ -148,6 +197,15 @@ class Answer(APIView):
 
         if test.test_done == True:
             return Response("You are not allowed to change, the test is finished.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        delta = timezone.now() - test.created_at
+        delta_time_minutes = delta.total_seconds()/60
+
+        if test.skill == "listening" and delta_time_minutes >= 360:
+            return Response("Your exam time is over, listening test time is 6 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        if test.skill == "reading" and delta_time_minutes >= 480:
+            return Response("Your exam time is over, reading test time is 8 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
 
         serializer = AnswerSerializer(test, data=self.request.data)
         if serializer.is_valid():
