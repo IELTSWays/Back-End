@@ -21,3 +21,7 @@ freezegun==1.2.2
 factory-boy==3.2.1
 django-mptt
 django-oauth-toolkit==2.3.0
+python-telegram-bot
+django-ckeditor
+telebot
+telethon
