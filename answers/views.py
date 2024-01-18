@@ -21,3 +21,19 @@ class Answer(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+
+
+
+class CorrectAnswer(APIView):
+    serializer_class = AnswerSerializer
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            test = TestCorrectAnswer.objects.get(name=self.kwargs["name"])
+            serialized_data = self.serializer_class(test).data
+            return Response(serialized_data, status=status.HTTP_200_OK)
+        except:
+            return Response("Test Correct Answer not found, try again", status=status.HTTP_400_BAD_REQUEST)
+
+

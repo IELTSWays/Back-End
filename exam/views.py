@@ -117,6 +117,7 @@ class StartTestNew(APIView):
             "00017": None,
             "00018": None,
             "00019": None,
+            "00020": None,
             "00021": None,
             "00022": None,
             "00023": None,
