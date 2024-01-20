@@ -17,7 +17,7 @@ class User(AbstractUser):
         ),
     )
 
-    username = None
+    username = models.CharField(max_length=128,unique=True,blank=True,null=True)
     candidate_code = models.CharField(max_length=128,unique=True,blank=True,null=True)
     national_code = models.CharField(max_length=50,null=True,blank=True)
     first_name = models.CharField(max_length=50,null=True,blank=True)

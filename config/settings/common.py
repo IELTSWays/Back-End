@@ -38,7 +38,12 @@ THIRD_PARTY_APPS = (
     "django_filters",
     "corsheaders",
     "gunicorn",
-    "oauth2_provider",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "dj_rest_auth",
+    "rest_framework.authtoken",
 )
 
 # Apps specific for this project go here.
@@ -53,6 +58,7 @@ LOCAL_APPS = (
     "payment",
     "teacher",
     "answers",
+    "oauth",
 )
 
 
@@ -68,11 +74,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    #"allauth.account.middleware.AccountMiddleware",
     #"utilities.middlware.CrossDomainSessionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
-
 
 
 TEMPLATES = [
@@ -94,6 +100,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 
 # Password validation
@@ -184,9 +193,46 @@ REFRESH_TTL = int(get_env("REFRESH_TTL", default="2"))  # days
 
 
 
-OAUTH2_PROVIDER = {
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'
+        ],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US'
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+            'https://www.googleapis.com/auth/contacts.readonly'
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online'
+        }
+    },
 }
+
+
+
+
+
+
 
 
 
@@ -194,7 +240,7 @@ OAUTH2_PROVIDER = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "accounts.backends.JWTAuthentication",
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication'
+        'allauth.account.auth_backends.AuthenticationBackend',
     ),
     "DEFAULT_THROTTLE_RATES": {"otp": get_env("OTP_THROTTLE_RATE", default="10/min"), },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
