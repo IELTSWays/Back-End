@@ -1,10 +1,11 @@
 from django.urls import path
-from ticket.views import Ticket, TicketList, ticketItem
+from order.payment_views import PaymentReq, PaymentVerify
+from order.views import CreateOrder
 
 urlpatterns = [
-    path("tickets", Ticket.as_view(), name="tickets"),
-    path("ticket-list", TicketList.as_view(), name="ticket-list"),
-    path('ticket-item/<int:id>', ticketItem.as_view(), name='ticket-item'),
+    path("create-order", CreateOrder.as_view(), name="create-order"),
+    path("payment-request/<int:id>/",PaymentReq.as_view(),name="payment-request"),
+    path("payment-verify/<int:id>/",PaymentVerify.as_view(),name="payment-verify"),
 ]
 
 

@@ -4,6 +4,24 @@ from exam.utils import random_N_chars_str
 from accounts.models import User
 
 
+
+class TestPrice(models.Model):
+    listening = models.IntegerField(default=0)
+    reading = models.IntegerField(default=0)
+    writing = models.IntegerField(default=0)
+    speaking = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if self.__class__.objects.count():
+            self.pk = self.__class__.objects.first().pk
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.listening) + ' | ' + str(self.reading) + ' | ' + str(self.writing) + ' | ' + str(self.speaking)
+
+
+
+
 class Test(models.Model):
     test_id = models.CharField(max_length=128, unique=True, blank=True)
     name = models.CharField(max_length=128,null=True,blank=True)
