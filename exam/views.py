@@ -255,8 +255,15 @@ class Report(APIView):
                 raw_score = 0
                 for correct_answer_key, correct_answer_value in correct_answer_resp.items():
                     for test_answer_key, test_answer_value in test_answer_resp.items():
+
                         if test_answer_key == correct_answer_key:
                             # print(test_answer_key, test_answer_value, correct_answer_value)
+
+                            if type(correct_answer_value) is list:
+                                for item in correct_answer_value:
+                                    if test_answer_value == item:
+                                        raw_score += 1
+
                             if test_answer_value == correct_answer_value:
                                 raw_score += 1
 
