@@ -1,4 +1,5 @@
-from exam.models import Test
+from exam.models import Test, TestPrice
+from exam import models
 from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status
@@ -19,6 +20,17 @@ class CustomPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
+
+
+
+
+class TestPrice(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        prices = models.TestPrice.objects.get(id=1)
+        price = {"listening":prices.listening,"reading":prices.reading,"writing":prices.writing,"speaking":prices.speaking}
+        return Response(price, status=status.HTTP_200_OK)
+
 
 
 class UserTests(GenericAPIView):

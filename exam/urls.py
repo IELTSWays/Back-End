@@ -1,5 +1,5 @@
 from django.urls import path
-from exam.views import AddQuestion, StartTest, Answer, StartTestNew, Report, UserTests
+from exam.views import AddQuestion, StartTest, Answer, StartTestNew, Report, UserTests, TestPrice
 
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('start-test', StartTestNew.as_view(), name='start-test'),
     path('report/<str:id>', Report.as_view(), name='report'),
     path('user-tests', UserTests.as_view(), name='user-tests'),
+    path('test-prices', TestPrice.as_view(), name='test-prices'),
 ]
 
 
