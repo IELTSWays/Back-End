@@ -1,7 +1,7 @@
 from django.contrib import admin
-from order.models import Transaction
+from order.models import Order
 
 
-class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('transaction_id', 'amount', 'success', 'created_at')
-admin.site.register(Transaction, TransactionAdmin)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('order_id', 'amount', 'user', 'status', 'created_at')
+admin.site.register(Order, OrderAdmin)

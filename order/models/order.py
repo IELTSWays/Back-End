@@ -9,13 +9,16 @@ class Order(models.Model):
     choices = (("new", "new"), ("pending", "pending"), ("canceled", "canceled"), ("paid", "paid"))
     status = models.CharField(choices=choices, default="new", max_length=128)
     user = models.ForeignKey(User,on_delete=models.PROTECT)
-    amount = models.IntegerField()
+    amount = models.IntegerField(default=0)
     description = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     test = models.ManyToManyField(Test)
     authority = models.CharField(max_length=36, null=True, blank=True)
-    ref_id = models.IntegerField(null=True, blank=True)
+    ref_id = models.IntegerField(null=True,blank=True)
+    payment_choices = (("zibal","zibal"),("zarinpal","zarinpal"),("manual","manual"))
+    payment_method = models.CharField(choices=payment_choices,max_length=128,null=True,blank=True)
+    manual_payment_receipt = models.FileField(null=True,blank=True)
 
     def __str__(self):
         return str(self.order_id) +'|'+ str(self.user) +'|'+ str(self.status)

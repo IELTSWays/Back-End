@@ -1,1 +1,1 @@
-from order.models.transaction import Transaction
+from order.models.order import Order
