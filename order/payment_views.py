@@ -11,8 +11,11 @@ from django.conf import settings
 from django.db import transaction
 from django.db.models import F
 from config.responses import bad_request, SuccessResponse, UnsuccessfulResponse
-
-
+from django.http import HttpResponse
+from order.models import Order
+from book.models import Book
+import ast
+from exam.models import Test
 
 
 class PaymentReq(APIView):
@@ -59,7 +62,7 @@ class PaymentReq(APIView):
 
 
 
-class PaymentVerify(APIView):
+class ZarinpalVerify(APIView):
     @transaction.atomic
     def get(self, *args, **kwargs):
         status = self.request.query_params.get("Status")
@@ -67,16 +70,17 @@ class PaymentVerify(APIView):
         id = kwargs.get("id")
 
         if not authority or status != "OK":
-            return redirect('https://panel.istroco.com/payment/faild')
+            #return redirect('https://panel.istroco.com/payment/faild')
+            return HttpResponse("payment faild...", content_type='text/plain')
 
         try:
-            invoice = Invoice.objects.get(id=id, status="پرداخت نشده")
-        except Invoice.DoesNotExist:
-            return bad_request("Invoice does not exist or already paid.")
+            order = Order.objects.get(id=id, status="new")
+        except Order.DoesNotExist:
+            return bad_request("Order does not exist or already paid.")
 
         data = {
             "MerchantID": settings.ZARRINPAL_MERCHANT_ID,
-            "Amount": invoice.price,
+            "Amount": order.amount,
             "Authority": authority,
         }
         data = json.dumps(data)
@@ -86,11 +90,90 @@ class PaymentVerify(APIView):
         if response.status_code == 200:
             response = response.json()
             if response['Status'] == 100:
-                invoice.status = "پرداخت شده"
-                invoice.authority = authority
-                invoice.ref_id = response['RefID']
-                invoice.save()
-                return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
+                order.status = "paid"
+                order.authority = authority
+                order.ref_id = response['RefID']
+                order.save()
+
+                # create tests:
+
+                new_test_ids = []
+                tests = ast.literal_eval(order.description)
+                for test in tests:
+
+                    if test[3] == "A":
+                        type = "academic"
+                    else:
+                        type = "general"
+
+                    if test[4] == "L":
+                        skill = "listening"
+                    elif test[4] == "R":
+                        skill = "reading"
+                    elif test[4] == "W":
+                        skill = "writing"
+                    else:
+                        skill = "speaking"
+
+                    test_book = Book.objects.get(id=int(test[1] + test[2]))
+                    test_name = test[0] + test[1] + test[2] + test[4] + test[5] + test[6]
+
+                    answers = {
+                        "00001": None,
+                        "00002": None,
+                        "00003": None,
+                        "00004": None,
+                        "00005": None,
+                        "00006": None,
+                        "00007": None,
+                        "00008": None,
+                        "00009": None,
+                        "00010": None,
+                        "00011": None,
+                        "00012": None,
+                        "00013": None,
+                        "00014": None,
+                        "00015": None,
+                        "00016": None,
+                        "00017": None,
+                        "00018": None,
+                        "00019": None,
+                        "00020": None,
+                        "00021": None,
+                        "00022": None,
+                        "00023": None,
+                        "00024": None,
+                        "00025": None,
+                        "00026": None,
+                        "00027": None,
+                        "00028": None,
+                        "00029": None,
+                        "00030": None,
+                        "00031": None,
+                        "00032": None,
+                        "00033": None,
+                        "00034": None,
+                        "00035": None,
+                        "00036": None,
+                        "00037": None,
+                        "00038": None,
+                        "00039": None,
+                        "00040": None}
+
+                    test = Test()
+                    test.user = order.user
+                    test.skill = skill
+                    test.type = type
+                    test.book = test_book
+                    test.answers = answers
+                    test.name = test_name
+                    test.save()
+
+                    new_test_ids.append(test.test_id)
+
+
+                #return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
+                return HttpResponse("payment done... RefID={0} and your new test ids are:{1}".format(response['RefID'],new_test_ids), content_type='text/plain')
             else:
-                return SuccessResponse(data={'status': False, 'details': 'Invoice already paid' })
+                return SuccessResponse(data={'status': False, 'details': 'order already paid' })
         return SuccessResponse(data=response.content)

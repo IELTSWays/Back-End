@@ -6,7 +6,7 @@ from exam.models import Test
 
 class Order(models.Model):
     order_id = models.CharField(max_length=255, null=True, blank=True)
-    choices = (("new", "new"), ("pending", "pending"), ("canceled", "canceled"), ("paid", "paid"))
+    choices = (("new", "new"), ("canceled", "canceled"), ("paid", "paid"))
     status = models.CharField(choices=choices, default="new", max_length=128)
     user = models.ForeignKey(User,on_delete=models.PROTECT)
     amount = models.IntegerField(default=0)

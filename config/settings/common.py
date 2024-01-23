@@ -1,6 +1,7 @@
 from os import environ
 from pathlib import Path
 
+
 # GET ENV UTIL
 def get_env(key, default=None, optinal=False):
     """Return environment variables with some options."""
@@ -17,6 +18,7 @@ def get_env(key, default=None, optinal=False):
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+SITE_ID = 2
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -44,6 +46,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "rest_framework.authtoken",
+    "zibal",
 )
 
 # Apps specific for this project go here.
@@ -234,12 +237,11 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 
-
 # REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "accounts.backends.JWTAuthentication",
-        'allauth.account.auth_backends.AuthenticationBackend',
+        #'allauth.account.auth_backends.AuthenticationBackend',
     ),
     "DEFAULT_THROTTLE_RATES": {"otp": get_env("OTP_THROTTLE_RATE", default="10/min"), },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -288,7 +290,11 @@ ZP_API_REQUEST = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.js
 ZP_API_VERIFY = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
 ZP_API_STARTPAY = "https://sandbox.zarinpal.com/pg/StartPay/"
 #ZARIN_CALL_BACK = 'https://api.istroco.com/invoices/payment-verify/'
-ZARIN_CALL_BACK = 'http://127.0.0.1:8000/order/payment-verify/'
+ZARIN_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-verify/'
 # END ZARRINPAL CONFIGURATION
 
 
+# ZIBAL CONFIGURATION
+ZIBAL_MERCHANT_ID = "65a69be3c5d2cb0011fa9141"
+ZIBAL_CALL_BACK = 'http://127.0.0.1:8000/order/payment-verify/'
+# END ZIBAL CONFIGURATION
