@@ -8,8 +8,6 @@ from accounts.models import User
 class TestPrice(models.Model):
     listening = models.IntegerField(default=0)
     reading = models.IntegerField(default=0)
-    writing = models.IntegerField(default=0)
-    speaking = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         if self.__class__.objects.count():
@@ -17,7 +15,7 @@ class TestPrice(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.listening) + ' | ' + str(self.reading) + ' | ' + str(self.writing) + ' | ' + str(self.speaking)
+        return str(self.listening) + ' | ' + str(self.reading)
 
 
 

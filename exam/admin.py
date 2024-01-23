@@ -9,5 +9,5 @@ admin.site.register(Test, TestAdmin)
 
 
 class TestPriceAdmin(admin.ModelAdmin):
-    list_display = ('listening','reading','writing', 'speaking')
+    list_display = ('listening','reading')
 admin.site.register(TestPrice, TestPriceAdmin)

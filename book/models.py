@@ -3,6 +3,7 @@ from django.utils.html import format_html
 
 
 class Book(models.Model):
+    id = models.IntegerField(primary_key=True,unique=True)
     name = models.CharField(max_length=256,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
     cover_photo = models.ImageField(upload_to='books')

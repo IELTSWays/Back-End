@@ -3,5 +3,5 @@ from book.models import Book
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('cover', 'name', 'academic', 'general')
+    list_display = ('id','cover', 'name', 'academic', 'general')
 admin.site.register(Book, BookAdmin)

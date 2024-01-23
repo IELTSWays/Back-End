@@ -28,7 +28,7 @@ class TestPrice(APIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         prices = models.TestPrice.objects.get(id=1)
-        price = {"listening":prices.listening,"reading":prices.reading,"writing":prices.writing,"speaking":prices.speaking}
+        price = {"listening":prices.listening,"reading":prices.reading}
         return Response(price, status=status.HTTP_200_OK)
 
 
@@ -75,7 +75,7 @@ class AddQuestion(APIView):
 
 
 
-
+# ------- not used -------
 class StartTest(APIView):
     serializer_class = TestSerializer
     permission_classes = [IsAuthenticated]
