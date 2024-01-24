@@ -1,10 +1,9 @@
 from django.urls import path
-from ticket.views import Ticket, TicketList, ticketItem
+from book.views import BooksList, BookItem
 
 urlpatterns = [
-    path("tickets", Ticket.as_view(), name="tickets"),
-    path("ticket-list", TicketList.as_view(), name="ticket-list"),
-    path('ticket-item/<int:id>', ticketItem.as_view(), name='ticket-item'),
+    path("books", BooksList.as_view(), name="books"),
+    path('book-item/<int:id>', BookItem.as_view(), name='book-item'),
 ]
 
 
