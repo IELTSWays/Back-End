@@ -1,5 +1,3 @@
-#from invoice.models import Invoice
-#from invoice.serializers import InvoiceSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,10 +10,13 @@ from django.db import transaction
 from django.db.models import F
 from config.responses import bad_request, SuccessResponse, UnsuccessfulResponse
 from django.http import HttpResponse
-from order.models import Order
+from order.models import Order, ManualPayment
 from book.models import Book
 import ast
 from exam.models import Test
+from order.serializers import OrderSerializer, ManualPaymentSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
 
 
 class PaymentReq(APIView):
@@ -177,3 +178,51 @@ class ZarinpalVerify(APIView):
             else:
                 return SuccessResponse(data={'status': False, 'details': 'order already paid' })
         return SuccessResponse(data=response.content)
+
+
+
+
+
+
+
+
+class ManualPayment(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get("id")
+        try:
+            order = Order.objects.get(id=id)
+        except Order.DoesNotExist:
+            return bad_request("Order does not exist or already paid.")
+
+
+        data = self.request.data
+
+        if data['transaction_photo']:
+            pass
+        else:
+            return Response("Transaction photo must be uploaded.", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        data['user'] = order.user.id
+        data['order'] = order.id
+
+        serializer = ManualPaymentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            payment_text = "Manual payment data uploaded, your exams will be created soon."
+            order_serializer = OrderSerializer(order)
+            response_data = {"message":payment_text,"payment_data":serializer.data,"order_data":order_serializer.data}
+            return Response(response_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
+'''
+manual_payment = ManualPayment()
+        manual_payment.user = order.user.id
+        manual_payment.order = order.id
+        manual_payment.transaction_number = data['transaction_number']
+        manual_payment.transaction_photo = data['transaction_photo']
+        manual_payment.description = data['description']
+        manual_payment.save()
+'''

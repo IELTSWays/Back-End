@@ -115,4 +115,6 @@ class CreateOrder(APIView):
 
 
         else:
-            pass
+            data = {'manual_payment_url': "http://127.0.0.1:8000/order/manual_payment/"+str(order.id),
+                    'order': OrderSerializer(order).data}
+            return SuccessResponse(data)
