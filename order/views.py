@@ -112,9 +112,47 @@ class CreateOrder(APIView):
             except requests.exceptions.ConnectionError:
                 return {'status': False, 'code': 'connection error'}
 
-
-
         else:
             data = {'manual_payment_url': "http://127.0.0.1:8000/order/manual_payment/"+str(order.id),
                     'order': OrderSerializer(order).data}
             return SuccessResponse(data)
+
+
+
+
+class CreateOrderNoPay(APIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, *args, **kwargs):
+        req = self.request.data
+
+        # create Order:
+
+        amount = 0
+        for test in req['test']:
+
+            if test[4] == "L":
+                price = TestPrice.objects.get(id=1).listening
+                amount += price
+
+            if test[4] == "R":
+                price = TestPrice.objects.get(id=1).reading
+                amount += price
+
+            if test[4] == "W":
+                price = 0
+                amount += price
+
+            if test[4] == "S":
+                price = 0
+                amount += price
+
+        order = Order()
+        order.amount = amount
+        order.user = self.request.user
+        order.description = req['test']
+        order.save()
+
+        return SuccessResponse(OrderSerializer(order).data)
+

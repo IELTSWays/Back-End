@@ -19,7 +19,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 
-class PaymentReq(APIView):
+class ZarinpalPaymentReq(APIView):
     @transaction.atomic
     def get(self, *args, **kwargs):
         authority = self.request.query_params.get("Authority")
@@ -27,21 +27,20 @@ class PaymentReq(APIView):
         id = kwargs.get("id")
 
         try:
-            invoice = Invoice.objects.get(id=id,status="پرداخت نشده")
-        except Invoice.DoesNotExist:
-            return bad_request("Invoice does not exist or already paid.")
+            order = Order.objects.get(id=id)
+        except Order.DoesNotExist:
+            return bad_request("Order does not exist or already paid.")
 
         data = {
             "MerchantID": settings.ZARRINPAL_MERCHANT_ID,
-            "Amount": invoice.price,
-            "Description": invoice.description,
+            "Amount": order.amount,
+            "Description": "خریداری آزمون آنلاین آیلتس ویز",
             "Authority": authority,
-            "CallbackURL": settings.ZARIN_CALL_BACK + str(invoice.id) + "/",
-            "InvoiceID": invoice.id,
+            "CallbackURL": settings.ZARIN_CALL_BACK + str(order.id) + "/",
+            "OrderID": order.id,
         }
-
         data = json.dumps(data)
-        headers = {'content-type': 'application/json', 'content-length': str(len(data)) }
+        headers = {'content-type': 'application/json', 'content-length': str(len(data))}
 
         try:
             response = requests.post(settings.ZP_API_REQUEST, data=data, headers=headers, timeout=10)
@@ -49,9 +48,12 @@ class PaymentReq(APIView):
             if response.status_code == 200:
                 response = response.json()
                 if response['Status'] == 100:
-                    invoice.authority = response['Authority']
-                    invoice.save()
-                    return SuccessResponse(data= {'status': True, 'url': settings.ZP_API_STARTPAY + str(response['Authority']), 'invoice': invoice.id, 'authority': response['Authority']})
+                    order.authority = response['Authority']
+                    order.save()
+                    order_serializer = OrderSerializer(order)
+                    data = {'status': True, 'url': settings.ZP_API_STARTPAY + str(response['Authority']),
+                            'order': order.id, 'authority': response['Authority']}
+                    return SuccessResponse(order_serializer.data, data)
                 else:
                     return {'status': False, 'code': str(response['Status'])}
             return response
@@ -60,6 +62,8 @@ class PaymentReq(APIView):
             return {'status': False, 'code': 'timeout'}
         except requests.exceptions.ConnectionError:
             return {'status': False, 'code': 'connection error'}
+
+
 
 
 
@@ -169,6 +173,8 @@ class ZarinpalVerify(APIView):
                     test.answers = answers
                     test.name = test_name
                     test.save()
+
+                    order.test.add(test)
 
                     new_test_ids.append(test.test_id)
 

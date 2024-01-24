@@ -18,7 +18,7 @@ class Order(models.Model):
     ref_id = models.IntegerField(null=True,blank=True)
     payment_choices = (("zibal","zibal"),("zarinpal","zarinpal"),("manual","manual"))
     payment_method = models.CharField(choices=payment_choices,max_length=128,null=True,blank=True)
-    #manual_payment_receipt = models.FileField(null=True,blank=True)
+
 
     def __str__(self):
         return str(self.order_id) +'|'+ str(self.user) +'|'+ str(self.status)
