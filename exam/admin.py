@@ -1,5 +1,5 @@
 from django.contrib import admin
-from exam.models import Test, TestPrice
+from exam.models import Test, TestPrice, SpeakingTest, WritingTest
 from django.db import models
 
 class TestAdmin(admin.ModelAdmin):
@@ -11,3 +11,15 @@ admin.site.register(Test, TestAdmin)
 class TestPriceAdmin(admin.ModelAdmin):
     list_display = ('listening','reading')
 admin.site.register(TestPrice, TestPriceAdmin)
+
+
+
+class SpeakingTestAdmin(admin.ModelAdmin):
+    list_display = ('teacher','time', 'user')
+admin.site.register(SpeakingTest, SpeakingTestAdmin)
+
+
+
+class WritingTestAdmin(admin.ModelAdmin):
+    list_display = ('marker', 'user')
+admin.site.register(WritingTest, WritingTestAdmin)

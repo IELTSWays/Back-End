@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from exam.models import Test
+from exam.models import Test, WritingTest, SpeakingTest
 
 
 class TestSerializer(serializers.ModelSerializer):
@@ -20,3 +20,20 @@ class QuestionSerializer(serializers.Serializer):
     answer = serializers.CharField()
     image = serializers.CharField()
     text = serializers.CharField()
+
+
+
+
+
+
+class WritingTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WritingTest
+        fields = "__all__"
+
+
+
+class SpeakingTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpeakingTest
+        fields = "__all__"

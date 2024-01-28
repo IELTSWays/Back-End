@@ -2,7 +2,7 @@ from django.db import models
 from book.models import Book
 from exam.utils import random_N_chars_str
 from accounts.models import User
-
+from teacher.models import Teacher, ReserveTimes
 
 
 class TestPrice(models.Model):
@@ -40,4 +40,56 @@ class Test(models.Model):
 
     def __str__(self):
         return str(self.skill) +'|'+ str(self.type) +'|'+ str(self.id)
+
+
+
+
+
+
+
+class SpeakingTest(models.Model):
+    test_id = models.CharField(max_length=128, unique=True, blank=True)
+    name = models.CharField(max_length=128,null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type_choices = (("academic","academic"),("general","general"))
+    type = models.CharField(choices=type_choices, max_length=128)
+    test_done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    time = models.ForeignKey(ReserveTimes, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.test_id:
+            self.test_id = random_N_chars_str(12)
+        super(SpeakingTest, self).save()
+
+    def __str__(self):
+        return str(self.time) +'|'+ str(self.teacher) +'|'+ str(self.test_id)
+
+
+
+
+
+
+
+
+
+
+class WritingTest(models.Model):
+    test_id = models.CharField(max_length=128, unique=True, blank=True)
+    name = models.CharField(max_length=128,null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type_choices = (("academic","academic"),("general","general"))
+    type = models.CharField(choices=type_choices, max_length=128)
+    test_done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    marker = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.test_id:
+            self.test_id = random_N_chars_str(12)
+        super(WritingTest, self).save()
+
+    def __str__(self):
+        return str(self.user) +'|'+ str(self.marker) +'|'+ str(self.test_id)
 
