@@ -1,10 +1,21 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from book.serializers import BookSerializer
+from book.serializers import BookSerializer, ProductSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import User
-from book.models import Book
+from book.models import Book, Product
+
+
+
+class Products(APIView):
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
+    def get(self, *args, **kwargs):
+        products = Product.objects.all()
+        serializer = self.serializer_class(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 

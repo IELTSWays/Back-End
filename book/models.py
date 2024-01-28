@@ -15,3 +15,17 @@ class Book(models.Model):
 
     def cover(self):
         return format_html("<img width=40 src='{}'>".format(self.cover_photo.url))
+
+
+
+class Product(models.Model):
+    id = models.CharField(max_length=128,primary_key=True,unique=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    skill_choices = (("listening", "listening"), ("reading", "reading"), ("writing", "writing"))
+    skill = models.CharField(choices=skill_choices, max_length=128)
+    type_choices = (("academic", "academic"), ("general", "general"))
+    type = models.CharField(choices=type_choices, max_length=128)
+    enable = models.BooleanField(default=True)
+
+
+

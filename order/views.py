@@ -14,7 +14,7 @@ from django.conf import settings
 from django.db import transaction
 from django.db.models import F
 from config.responses import bad_request, SuccessResponse, UnsuccessfulResponse
-from zibal.zb import Zibal as zb
+#from zibal.zb import Zibal as zb
 from django.http import HttpResponse
 
 
@@ -60,6 +60,7 @@ class CreateOrder(APIView):
 
             # ------ Zibal ------------
 
+            '''
             zb_object = zb(settings.ZIBAL_MERCHANT_ID)
             zb_data = zb_object.request(settings.ZIBAL_CALL_BACK, order.id, order.amount,
                                         "خریداری آزمون آنلاین آیلتس ویز", order.user.id)
@@ -69,8 +70,7 @@ class CreateOrder(APIView):
                 return redirect(zb_data['start_pay_url'])
             else:
                 return HttpResponse(zb_data["message"])
-
-
+            '''
 
         elif req['payment_method'] == "zarinpal":
 

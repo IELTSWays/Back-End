@@ -46,7 +46,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "rest_framework.authtoken",
-    "zibal",
+    #"zibal",
 )
 
 # Apps specific for this project go here.
