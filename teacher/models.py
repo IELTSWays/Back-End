@@ -4,6 +4,7 @@ from accounts.models import User
 from datetime import datetime
 
 
+
 class Teacher(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=256,null=True, blank=True)
