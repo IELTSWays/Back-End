@@ -84,6 +84,8 @@ class WritingTest(models.Model):
     test_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     marker = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    task1 = models.TextField(max_length=2000,null=True,blank=True)
+    task2 = models.TextField(max_length=2000, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.test_id:

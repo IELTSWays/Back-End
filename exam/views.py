@@ -1,6 +1,6 @@
-from exam.models import Test, TestPrice
+from exam.models import Test, TestPrice, WritingTest, SpeakingTest
 from exam import models
-from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer
+from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer, WritingTestSerializer, SpeakingTestSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
@@ -408,3 +408,54 @@ class Report(APIView):
             return Response(data, status=status.HTTP_200_OK)
         except:
             return Response("Test not found or something went wrong, try again", status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+class UserWritingTests(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+    serializer_class = WritingTestSerializer
+    #queryset = Test.objects.all()
+    #filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    #filterset_fields = ['user', 'created_at', 'skill', 'type']
+    #search_fields = ['test_id', 'name']
+    #ordering_fields = ['test_id', 'created_at', 'id']
+
+    def get(self, *args, **kwargs):
+        user_tests = WritingTest.objects.filter(user=self.request.user)
+        tests = self.filter_queryset(user_tests)
+        page = self.paginate_queryset(tests)
+        if page is not None:
+            serializer = WritingTestSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = WritingTestSerializer(tests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+class UserSpeakingTests(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+    serializer_class = SpeakingTestSerializer
+    #queryset = Test.objects.all()
+    #filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    #filterset_fields = ['user', 'created_at', 'skill', 'type']
+    #search_fields = ['test_id', 'name']
+    #ordering_fields = ['test_id', 'created_at', 'id']
+
+    def get(self, *args, **kwargs):
+        user_tests = SpeakingTest.objects.filter(user=self.request.user)
+        tests = self.filter_queryset(user_tests)
+        page = self.paginate_queryset(tests)
+        if page is not None:
+            serializer = SpeakingTestSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = SpeakingTestSerializer(tests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
