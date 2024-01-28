@@ -40,6 +40,8 @@ python manage.py runserver
 ```bash
 docker-compose exec web python manage.py makemigrations
 docker-compose exec web python manage.py migrate   
+docker exec -it container_id python manage.py createsuperuser
+
 ```
 
 

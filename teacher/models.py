@@ -9,6 +9,8 @@ class Teacher(models.Model):
     name = models.CharField(max_length=256,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
     photo = models.ImageField(upload_to='teachers',default="teachers/default.png")
+    writing_price = models.IntegerField(default=0)
+    speaking_price = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.name)
