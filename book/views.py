@@ -12,9 +12,32 @@ class Products(APIView):
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
     def get(self, *args, **kwargs):
+        books = Book.objects.all()
         products = Product.objects.all()
-        serializer = self.serializer_class(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        for book in books:
+            for product in products:
+
+                if product.book == book:
+
+                    if product.id[3] == "L":
+                        skill = "listening"
+                    if product.id[3] == "W":
+                        skill = "writing"
+                    if product.id[3] == "R":
+                        skill = "reading"
+
+
+                    for i in range(1,5):
+                        if str(product.id[5]) == str(i):
+                            item = {"id":product.id, "type":product.type, "skill":skill}
+                            print(item)
+
+        aaa = {"book": BookSerializer(book).data, "tests": testss}
+
+
+        #serializer = self.serializer_class(products, many=True)
+        return Response(aaa, status=status.HTTP_200_OK)
 
 
 
