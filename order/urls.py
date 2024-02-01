@@ -1,8 +1,9 @@
 from django.urls import path
 from order.payment_views import ZarinpalPaymentReq, ZarinpalVerify, ManualPayment
-from order.views import CreateOrder, CreateOrderNoPay
+from order.views import CreateOrder, CreateOrderNoPay, UserOrders
 
 urlpatterns = [
+    path("user-orders", UserOrders.as_view(), name="user-orders"),
     path("create-order", CreateOrder.as_view(), name="create-order"),
     path("create-order-nopay", CreateOrderNoPay.as_view(), name="create-order-nopay"),
     path("zarinpal-request/<int:id>/",ZarinpalPaymentReq.as_view(),name="zarinpal-request"),

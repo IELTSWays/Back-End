@@ -21,6 +21,20 @@ from django.http import HttpResponse
 
 
 
+
+class UserOrders(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+    def get(self, *args, **kwargs):
+        user_orders = Order.objects.filter(user=self.request.user)
+        serializer = OrderSerializer(user_orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
 class CreateOrder(APIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
