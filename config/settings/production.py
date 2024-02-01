@@ -14,7 +14,7 @@ DATABASES = {
         "NAME": get_env("POSTGRES_NAME"),
         "USER": get_env("POSTGRES_USER"),
         "PASSWORD": get_env("POSTGRES_PASSWORD"),
-        #"HOST": get_env("POSTGRES_HOST"),
+        "HOST": get_env("POSTGRES_HOST"),
         "PORT": get_env("POSTGRES_PORT"),
     }
 }
