@@ -2,8 +2,8 @@ version: '3'
 
 services:
 
-  postgres:
-    container_name: postgres
+  db:
+    container_name: db
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -40,7 +40,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgres
+      - db
       - redis
     restart: unless-stopped
     networks:

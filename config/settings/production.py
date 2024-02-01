@@ -14,7 +14,7 @@ DATABASES = {
         "NAME": get_env("POSTGRES_DB"),
         "USER": get_env("POSTGRES_USER"),
         "PASSWORD": get_env("POSTGRES_PASSWORD"),
-        "HOST": "postgres",
+        "HOST": "db",
         "PORT": 5432,
     }
 }
