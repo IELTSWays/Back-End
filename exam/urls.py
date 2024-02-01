@@ -1,5 +1,5 @@
 from django.urls import path
-from exam.views import AddQuestion, StartTest, Answer, StartTestNew, Report, UserTests, TestPrice, UserWritingTests, UserSpeakingTests
+from exam.views import AddQuestion,StartTest,Answer,StartTestNew,Report,UserTests,TestPrice,UserWritingTests,UserSpeakingTests,CreateSpeaking
 
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('test-prices', TestPrice.as_view(), name='test-prices'),
     path('user-writing-tests', UserWritingTests.as_view(), name='user-writing-tests'),
     path('user-speaking-tests', UserSpeakingTests.as_view(), name='user-speaking-tests'),
+    path('create-speaking', CreateSpeaking.as_view(), name='create-speaking'),
 ]
 
 

@@ -14,6 +14,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 import datetime
 from django.utils import timezone
+from teacher.models import Teacher, ReserveTimes
 
 
 class CustomPagination(PageNumberPagination):
@@ -459,3 +460,25 @@ class UserSpeakingTests(GenericAPIView):
         serializer = SpeakingTestSerializer(tests, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+
+
+
+
+
+class CreateSpeaking(APIView):
+    serializer_class = SpeakingTestSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        req = self.request.data
+        teacher = Teacher.objects.get(id=req['teacher'])
+        req['amount'] = teacher.speaking_price
+        req['user'] = self.request.user.id
+        serializer = SpeakingTestSerializer(data=req)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
