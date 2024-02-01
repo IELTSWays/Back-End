@@ -38,7 +38,7 @@ services:
     volumes:
       - .:/ieltsways_back
     env_file:
-      - .env.local
+      - .env
     depends_on:
       - postgres
       - redis
