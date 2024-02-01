@@ -1,1 +1,1 @@
-from order.models.order import Order, ManualPayment
+from order.models.order import Order, ManualPayment, SpeakingManualPayment

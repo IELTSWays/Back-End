@@ -10,13 +10,13 @@ from django.db import transaction
 from django.db.models import F
 from config.responses import bad_request, SuccessResponse, UnsuccessfulResponse
 from django.http import HttpResponse
-from order.models import Order, ManualPayment
+from order.models import Order, ManualPayment, SpeakingManualPayment
 from book.models import Book
 import ast
-from exam.models import Test
-from order.serializers import OrderSerializer, ManualPaymentSerializer
+from exam.models import Test, SpeakingTest, WritingTest
+from order.serializers import OrderSerializer, ManualPaymentSerializer, SpeakingManualPaymentSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from exam.serializers import SpeakingTestSerializer, WritingTestSerializer
 
 
 class ZarinpalPaymentReq(APIView):
@@ -51,6 +51,54 @@ class ZarinpalPaymentReq(APIView):
                     order.authority = response['Authority']
                     order.save()
                     order_serializer = OrderSerializer(order)
+                    data = {'status': True, 'url': settings.ZP_API_STARTPAY + str(response['Authority']),
+                            'order': order.id, 'authority': response['Authority']}
+                    return SuccessResponse(order_serializer.data, data)
+                else:
+                    return {'status': False, 'code': str(response['Status'])}
+            return response
+
+        except requests.exceptions.Timeout:
+            return {'status': False, 'code': 'timeout'}
+        except requests.exceptions.ConnectionError:
+            return {'status': False, 'code': 'connection error'}
+
+
+
+
+
+class ZarinpalSpeakingReq(APIView):
+    @transaction.atomic
+    def get(self, *args, **kwargs):
+        authority = self.request.query_params.get("Authority")
+        status = self.request.query_params.get("Status")
+        id = kwargs.get("id")
+
+        try:
+            order = SpeakingTest.objects.get(id=id)
+        except Order.DoesNotExist:
+            return bad_request("Speaking Test does not exist or already paid.")
+
+        data = {
+            "MerchantID": settings.ZARRINPAL_MERCHANT_ID,
+            "Amount": order.amount,
+            "Description": "خریداری آزمون آنلاین آیلتس ویز",
+            "Authority": authority,
+            "CallbackURL": settings.ZARIN_SPEAKING_CALL_BACK + str(order.id) + "/",
+            "OrderID": order.id,
+        }
+        data = json.dumps(data)
+        headers = {'content-type': 'application/json', 'content-length': str(len(data))}
+
+        try:
+            response = requests.post(settings.ZP_API_REQUEST, data=data, headers=headers, timeout=10)
+
+            if response.status_code == 200:
+                response = response.json()
+                if response['Status'] == 100:
+                    order.authority = response['Authority']
+                    order.save()
+                    order_serializer = SpeakingTestSerializer(order)
                     data = {'status': True, 'url': settings.ZP_API_STARTPAY + str(response['Authority']),
                             'order': order.id, 'authority': response['Authority']}
                     return SuccessResponse(order_serializer.data, data)
@@ -191,6 +239,49 @@ class ZarinpalVerify(APIView):
 
 
 
+class ZarinpalSpeakingVerify(APIView):
+    @transaction.atomic
+    def get(self, *args, **kwargs):
+        status = self.request.query_params.get("Status")
+        authority = self.request.query_params.get("Authority")
+        id = kwargs.get("id")
+
+        if not authority or status != "OK":
+            #return redirect('https://panel.istroco.com/payment/faild')
+            return HttpResponse("payment faild...", content_type='text/plain')
+
+        try:
+            order = SpeakingTest.objects.get(id=id, status="new")
+        except Order.DoesNotExist:
+            return bad_request("Speaking Test does not exist or already paid.")
+
+        data = {
+            "MerchantID": settings.ZARRINPAL_MERCHANT_ID,
+            "Amount": order.amount,
+            "Authority": authority,
+        }
+        data = json.dumps(data)
+        headers = {'content-type': 'application/json', 'content-length': str(len(data))}
+        response = requests.post(settings.ZP_API_VERIFY, data=data, headers=headers)
+
+        if response.status_code == 200:
+            response = response.json()
+            if response['Status'] == 100:
+                order.status = "paid"
+                order.authority = authority
+                order.ref_id = response['RefID']
+                order.save()
+                #return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
+                return HttpResponse("payment done, RefID={}".format(response['RefID']), content_type='text/plain')
+            else:
+                return SuccessResponse(data={'status': False, 'details': 'order already paid' })
+        return SuccessResponse(data=response.content)
+
+
+
+
+
+
 
 class ManualPayment(APIView):
     permission_classes = [IsAuthenticated]
@@ -223,12 +314,32 @@ class ManualPayment(APIView):
 
 
 
-'''
-manual_payment = ManualPayment()
-        manual_payment.user = order.user.id
-        manual_payment.order = order.id
-        manual_payment.transaction_number = data['transaction_number']
-        manual_payment.transaction_photo = data['transaction_photo']
-        manual_payment.description = data['description']
-        manual_payment.save()
-'''
+
+class SpeakingManualPay(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get("id")
+        try:
+            order = SpeakingTest.objects.get(id=id)
+        except Order.DoesNotExist:
+            return bad_request("Speaking Test does not exist or already paid.")
+
+
+        data = self.request.data
+
+        if data['transaction_photo']:
+            pass
+        else:
+            return Response("Transaction photo must be uploaded.", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        data['user'] = order.user.id
+        data['speaking'] = order.id
+
+        serializer = SpeakingManualPaymentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            payment_text = "Speaking Manual payment data uploaded."
+            order_serializer = SpeakingTestSerializer(order)
+            response_data = {"message":payment_text,"payment_data":serializer.data,"order_data":order_serializer.data}
+            return Response(response_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

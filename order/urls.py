@@ -1,5 +1,5 @@
 from django.urls import path
-from order.payment_views import ZarinpalPaymentReq, ZarinpalVerify, ManualPayment
+from order.payment_views import ZarinpalPaymentReq, ZarinpalVerify, ManualPayment,SpeakingManualPay, ZarinpalSpeakingReq, ZarinpalSpeakingVerify
 from order.views import CreateOrder, CreateOrderNoPay, UserOrders
 
 urlpatterns = [
@@ -9,6 +9,9 @@ urlpatterns = [
     path("zarinpal-request/<int:id>/",ZarinpalPaymentReq.as_view(),name="zarinpal-request"),
     path("zarinpal-verify/<int:id>/",ZarinpalVerify.as_view(),name="zarinpal-verify"),
     path("manual_payment/<int:id>",ManualPayment.as_view(),name="manual_payment"),
+    path("zarinpal-speaking-req/<int:id>/",ZarinpalSpeakingReq.as_view(),name="zarinpal-speaking-req"),
+    path("zarinpal-speaking-verify/<int:id>/",ZarinpalSpeakingVerify.as_view(),name="zarinpal-speaking-verify"),
+    path("speaking-manual-pay/<int:id>",SpeakingManualPay.as_view(),name="speaking-manual-pay"),
 ]
 
 

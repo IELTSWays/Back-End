@@ -1,7 +1,7 @@
 from accounts.models import User
 from django.db import models
 from accounts.utils import random_N_chars_str
-from exam.models import Test
+from exam.models import Test, SpeakingTest, WritingTest
 
 
 class Order(models.Model):
@@ -35,6 +35,15 @@ class Order(models.Model):
 class ManualPayment(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    transaction_number = models.CharField(max_length=255, null=True, blank=True)
+    transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class SpeakingManualPayment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    speaking = models.ForeignKey(SpeakingTest, on_delete=models.PROTECT)
     transaction_number = models.CharField(max_length=255, null=True, blank=True)
     transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
