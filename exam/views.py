@@ -482,3 +482,56 @@ class CreateSpeaking(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class CreateWriting(APIView):
+    serializer_class = WritingTestSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        req = self.request.data
+        teacher = Teacher.objects.get(id=req['marker'])
+        req['amount'] = teacher.writing_price
+        req['user'] = self.request.user.id
+        serializer = WritingTestSerializer(data=req)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+class AnswerWriting(APIView):
+    serializer_class = WritingTestSerializer
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, *args, **kwargs):
+        test = WritingTest.objects.get(id=self.kwargs["id"])
+        data = self.request.data
+        data['marker'] = test.marker.id
+        data['user'] = test.user.id
+        data['type'] = test.type
+        #data['skill'] = test.skill
+
+        if self.request.user != test.user:
+            return Response("You are not allowed to take this exam.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        if test.test_done == True:
+            return Response("You are not allowed to change, the test is finished.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        delta = timezone.now() - test.created_at
+        delta_time_minutes = delta.total_seconds() / 60
+
+        if delta_time_minutes >= 360:
+            return Response("Your exam time is over, Writing test time is 6 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+        serializer = self.serializer_class(test, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

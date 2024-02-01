@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from order.models import Order, ManualPayment, SpeakingManualPayment
+from order.models import Order, ManualPayment, SpeakingManualPayment, WritingManualPayment
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -17,5 +17,10 @@ class ManualPaymentSerializer(serializers.ModelSerializer):
 class SpeakingManualPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpeakingManualPayment
+        fields = "__all__"
+
+class WritingManualPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WritingManualPayment
         fields = "__all__"
 

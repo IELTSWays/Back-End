@@ -59,6 +59,7 @@ class SpeakingTest(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     time = models.ForeignKey(ReserveTimes, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
     amount = models.IntegerField(default=0)
     description = models.CharField(max_length=255, null=True, blank=True)
     authority = models.CharField(max_length=36, null=True, blank=True)
@@ -84,6 +85,8 @@ class SpeakingTest(models.Model):
 
 
 class WritingTest(models.Model):
+    choices = (("new", "new"), ("pending", "pending"), ("canceled", "canceled"), ("paid", "paid"))
+    status = models.CharField(choices=choices, default="new", max_length=128)
     test_id = models.CharField(max_length=128, unique=True, blank=True)
     name = models.CharField(max_length=128,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -92,8 +95,15 @@ class WritingTest(models.Model):
     test_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     marker = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
     task1 = models.TextField(max_length=2000,null=True,blank=True)
     task2 = models.TextField(max_length=2000, null=True, blank=True)
+    amount = models.IntegerField(default=0)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    authority = models.CharField(max_length=36, null=True, blank=True)
+    ref_id = models.IntegerField(null=True, blank=True)
+    payment_choices = (("zibal", "zibal"), ("zarinpal", "zarinpal"), ("manual", "manual"))
+    payment_method = models.CharField(choices=payment_choices, max_length=128, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.test_id:

@@ -292,6 +292,7 @@ ZP_API_STARTPAY = "https://sandbox.zarinpal.com/pg/StartPay/"
 #ZARIN_CALL_BACK = 'https://api.istroco.com/invoices/payment-verify/'
 ZARIN_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-verify/'
 ZARIN_SPEAKING_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-speaking-verify/'
+ZARIN_WRITING_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-writing-verify/'
 # END ZARRINPAL CONFIGURATION
 
 

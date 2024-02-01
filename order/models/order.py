@@ -48,3 +48,13 @@ class SpeakingManualPayment(models.Model):
     transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+class WritingManualPayment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    writing = models.ForeignKey(WritingTest, on_delete=models.PROTECT)
+    transaction_number = models.CharField(max_length=255, null=True, blank=True)
+    transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
