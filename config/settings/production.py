@@ -11,8 +11,8 @@ ALLOWED_HOSTS = get_env("ALLOWED_HOSTS").split(",")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_env("POSTGRES_DB"),
-        "USER": get_env("POSTGRES_USER"),
+        "NAME": "postgres",
+        "USER": "root",
         "PASSWORD": "MyPassword123",
         "HOST": "postgres",
         "PORT": 5432,
