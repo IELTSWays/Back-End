@@ -13,10 +13,7 @@ services:
     networks:
       main:
     environment:
-      POSTGRES_DB: "postgres"
-      POSTGRES_USER: "root"
-      POSTGRES_PASSWORD: "MyPassword123"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_HOST_AUTH_METHOD: md5
     env_file:
       - .env
 
