@@ -37,7 +37,7 @@ class ManualPayment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     transaction_number = models.CharField(max_length=255, null=True, blank=True)
     transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -46,7 +46,7 @@ class SpeakingManualPayment(models.Model):
     speaking = models.ForeignKey(SpeakingTest, on_delete=models.PROTECT)
     transaction_number = models.CharField(max_length=255, null=True, blank=True)
     transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -56,5 +56,5 @@ class WritingManualPayment(models.Model):
     writing = models.ForeignKey(WritingTest, on_delete=models.PROTECT)
     transaction_number = models.CharField(max_length=255, null=True, blank=True)
     transaction_photo = models.ImageField(upload_to='transaction',null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
