@@ -1,6 +1,6 @@
 from exam.models import Test, TestPrice, WritingTest, SpeakingTest
 from exam import models
-from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer, WritingTestSerializer, SpeakingTestSerializer
+from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer,WritingCreateTestSerializer, WritingTestSerializer,SpeakingCreateTestSerializer, SpeakingTestSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
@@ -469,7 +469,7 @@ class UserSpeakingTests(GenericAPIView):
 
 
 class CreateSpeaking(APIView):
-    serializer_class = SpeakingTestSerializer
+    serializer_class = SpeakingCreateTestSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -477,7 +477,7 @@ class CreateSpeaking(APIView):
         teacher = Teacher.objects.get(id=req['teacher'])
         req['amount'] = teacher.speaking_price
         req['user'] = self.request.user.id
-        serializer = SpeakingTestSerializer(data=req)
+        serializer = SpeakingCreateTestSerializer(data=req)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -487,7 +487,7 @@ class CreateSpeaking(APIView):
 
 
 class CreateWriting(APIView):
-    serializer_class = WritingTestSerializer
+    serializer_class = WritingCreateTestSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -495,7 +495,7 @@ class CreateWriting(APIView):
         teacher = Teacher.objects.get(id=req['marker'])
         req['amount'] = teacher.writing_price
         req['user'] = self.request.user.id
-        serializer = WritingTestSerializer(data=req)
+        serializer = WritingCreateTestSerializer(data=req)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

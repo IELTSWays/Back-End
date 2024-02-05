@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from exam.models import Test, WritingTest, SpeakingTest
-
+from teacher.serializers import TeacherSerializer, ReserveTimesSerializer
+from accounts.serializers import UserSerializer
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,13 +28,31 @@ class QuestionSerializer(serializers.Serializer):
 
 
 class WritingTestSerializer(serializers.ModelSerializer):
+    marker = TeacherSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = WritingTest
         fields = "__all__"
 
 
+class WritingCreateTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WritingTest
+        fields = "__all__"
+
 
 class SpeakingTestSerializer(serializers.ModelSerializer):
+    time = ReserveTimesSerializer(read_only=True)
+    teacher = TeacherSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = SpeakingTest
+        fields = "__all__"
+
+
+
+class SpeakingCreateTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpeakingTest
         fields = "__all__"
