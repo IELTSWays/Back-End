@@ -289,14 +289,13 @@ ZARRINPAL_MERCHANT_ID = "00000000-0000-0000-0000-000000000000"
 ZP_API_REQUEST = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json"
 ZP_API_VERIFY = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
 ZP_API_STARTPAY = "https://sandbox.zarinpal.com/pg/StartPay/"
-#ZARIN_CALL_BACK = 'https://api.istroco.com/invoices/payment-verify/'
-ZARIN_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-verify/'
-ZARIN_SPEAKING_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-speaking-verify/'
-ZARIN_WRITING_CALL_BACK = 'http://127.0.0.1:8000/order/zarinpal-writing-verify/'
+ZARIN_CALL_BACK = 'http://195.214.235.46:8000/order/zarinpal-verify/'
+ZARIN_SPEAKING_CALL_BACK = 'http://195.214.235.46:8000/order/zarinpal-speaking-verify/'
+ZARIN_WRITING_CALL_BACK = 'http://195.214.235.46:8000/order/zarinpal-writing-verify/'
 # END ZARRINPAL CONFIGURATION
 
 
 # ZIBAL CONFIGURATION
 ZIBAL_MERCHANT_ID = "65a69be3c5d2cb0011fa9141"
-ZIBAL_CALL_BACK = 'http://127.0.0.1:8000/order/payment-verify/'
+ZIBAL_CALL_BACK = 'http://195.214.235.46:8000/order/payment-verify/'
 # END ZIBAL CONFIGURATION
