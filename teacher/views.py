@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import User
 from teacher.models import Teacher,ReserveTimes
 from teacher import models
+from datetime import datetime, timedelta
 
 
 class TeacherList(APIView):
@@ -51,4 +52,33 @@ class TeacherReserveTimes(APIView):
         serializer = self.serializer_class(times, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+
+
+class TeacherTimes(APIView):
+    serializer_class = TeachersReserveTimesSerializer
+    permission_classes = [AllowAny]
+    def get(self, *args, **kwargs):
+        teachers = Teacher.objects.all()
+        data = []
+        for teacher in teachers:
+            times = models.ReserveTimes.objects.filter(teacher=teacher)
+            techer = {"id":teacher.id,"name":teacher.name}
+            techer_time = []
+            for time in times:
+                end = time.time + timedelta(minutes=20)
+                if time.reserved:
+                    state = "booked"
+                elif time.availabe:
+                    state = "selectable"
+                else:
+                    state = "unselectable"
+                techer_times = {"full_id":str(teacher.id)+"-"+str(time.id),"id":time.id,"start":time.time,"end":end,"state":state}
+                techer_time.append(techer_times)
+            item = {"techer":techer, "times":techer_time}
+            data.append(item)
+
+        return Response(data, status=status.HTTP_200_OK)
 
