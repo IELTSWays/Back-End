@@ -384,10 +384,12 @@ class ManualPayment(APIView):
 
         data = self.request.data
 
+        '''
         if data['transaction_photo']:
             pass
         else:
             return Response("Transaction photo must be uploaded.", status=status.HTTP_406_NOT_ACCEPTABLE)
+        '''
 
         data['user'] = order.user.id
         data['order'] = order.id
@@ -416,11 +418,6 @@ class SpeakingManualPay(APIView):
 
         data = self.request.data
 
-        if data['transaction_photo']:
-            pass
-        else:
-            return Response("Transaction photo must be uploaded.", status=status.HTTP_406_NOT_ACCEPTABLE)
-
         data['user'] = order.user.id
         data['speaking'] = order.id
 
@@ -447,11 +444,6 @@ class WritingManualPay(APIView):
 
 
         data = self.request.data
-
-        if data['transaction_photo']:
-            pass
-        else:
-            return Response("Transaction photo must be uploaded.", status=status.HTTP_406_NOT_ACCEPTABLE)
 
         data['user'] = order.user.id
         data['writing'] = order.id
