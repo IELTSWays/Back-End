@@ -477,6 +477,7 @@ class CreateSpeaking(APIView):
         teacher = Teacher.objects.get(id=req['teacher'])
         req['amount'] = teacher.speaking_price
         req['user'] = self.request.user.id
+        req['description'] = req['name']
         serializer = SpeakingCreateTestSerializer(data=req)
         if serializer.is_valid():
             serializer.save()
@@ -495,6 +496,8 @@ class CreateWriting(APIView):
         teacher = Teacher.objects.get(id=req['marker'])
         req['amount'] = teacher.writing_price
         req['user'] = self.request.user.id
+        req['description'] = req['name']
+
         serializer = WritingCreateTestSerializer(data=req)
         if serializer.is_valid():
             serializer.save()
