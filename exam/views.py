@@ -1,4 +1,4 @@
-from exam.models import Test, TestPrice, WritingTest, SpeakingTest
+from exam.models import Test, TestPrice, WritingTest, SpeakingTest, TestHistory
 from exam import models
 from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer,WritingCreateTestSerializer, WritingTestSerializer,SpeakingCreateTestSerializer, SpeakingTestSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -405,6 +405,13 @@ class Report(APIView):
                     'raw_score':raw_score,
                     'band_score':band_score,
                     'test_created_at':test.created_at}
+
+            history = TestHistory()
+            history.test = test
+            history.user = test.user
+            history.band_score = band_score
+            history.raw_score = raw_score
+            history.save()
 
             return Response(data, status=status.HTTP_200_OK)
         except:

@@ -60,6 +60,7 @@ LOCAL_APPS = (
     "order",
     "teacher",
     "answers",
+    "report",
     "oauth",
 )
 
