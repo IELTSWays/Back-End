@@ -393,6 +393,7 @@ class ManualPayment(APIView):
 
         data['user'] = order.user.id
         data['order'] = order.id
+        data['status'] = "pending"
 
         serializer = ManualPaymentSerializer(data=data)
         if serializer.is_valid():
@@ -420,6 +421,7 @@ class SpeakingManualPay(APIView):
 
         data['user'] = order.user.id
         data['speaking'] = order.id
+        data['status'] = "pending"
 
         serializer = SpeakingManualPaymentSerializer(data=data)
         if serializer.is_valid():
@@ -447,6 +449,7 @@ class WritingManualPay(APIView):
 
         data['user'] = order.user.id
         data['writing'] = order.id
+        data['status'] = "pending"
 
         serializer = WritingManualPaymentSerializer(data=data)
         if serializer.is_valid():
