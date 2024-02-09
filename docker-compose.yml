@@ -13,7 +13,7 @@ services:
     networks:
       main:
     env_file:
-      - .env.aaa
+      - .env
 
   redis:
     container_name: redis
@@ -38,7 +38,7 @@ services:
     volumes:
       - .:/ieltsways_back
     env_file:
-      - .env.aaa
+      - .env
     depends_on:
       - postgres
       - redis
