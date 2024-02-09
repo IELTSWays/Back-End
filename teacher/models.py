@@ -6,6 +6,7 @@ from datetime import datetime
 
 
 class Teacher(models.Model):
+    id = models.IntegerField(primary_key=True,unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=256,null=True, blank=True)
     description = models.TextField(null=True,blank=True)

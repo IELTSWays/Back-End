@@ -393,11 +393,12 @@ class ManualPayment(APIView):
 
         data['user'] = order.user.id
         data['order'] = order.id
-        data['status'] = "pending"
 
         serializer = ManualPaymentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            order.status = "pending"
+            order.save()
             payment_text = "Manual payment data uploaded, your exams will be created soon."
             order_serializer = OrderSerializer(order)
             response_data = {"message":payment_text,"payment_data":serializer.data,"order_data":order_serializer.data}
@@ -421,11 +422,12 @@ class SpeakingManualPay(APIView):
 
         data['user'] = order.user.id
         data['speaking'] = order.id
-        data['status'] = "pending"
 
         serializer = SpeakingManualPaymentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            order.status = "pending"
+            order.save()
             payment_text = "Speaking Manual payment data uploaded."
             order_serializer = SpeakingTestSerializer(order)
             response_data = {"message":payment_text,"payment_data":serializer.data,"order_data":order_serializer.data}
@@ -449,11 +451,12 @@ class WritingManualPay(APIView):
 
         data['user'] = order.user.id
         data['writing'] = order.id
-        data['status'] = "pending"
 
         serializer = WritingManualPaymentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            order.status = "pending"
+            order.save()
             payment_text = "Writing Manual payment data uploaded."
             order_serializer = WritingTestSerializer(order)
             response_data = {"message":payment_text,"payment_data":serializer.data,"order_data":order_serializer.data}

@@ -120,7 +120,6 @@ class WritingTest(models.Model):
 
 
 
-
 class TestHistory(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -130,7 +129,7 @@ class TestHistory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.skill) +'|'+ str(self.user) +'|'+ str(self.created_at)
+        return str(self.test) +'|'+ str(self.user) +'|'+ str(self.created_at)
 
 
 
