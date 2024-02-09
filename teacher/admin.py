@@ -9,7 +9,7 @@ class ReserveTimesInline(admin.TabularInline):
     extra = 1
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('cover','user', 'name')
+    list_display = ('cover','user', 'name', 'id')
     inlines = [ReserveTimesInline, ]
 admin.site.register(Teacher, TeacherAdmin)
 
