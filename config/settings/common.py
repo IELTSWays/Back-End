@@ -256,9 +256,9 @@ MAX_UPLOAD_SIZE = 5242880
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # CORSHEADERS CONFIGURATION
-ALLOWED_HOSTS = ['195.214.235.46','localhost','127.0.0.1','0.0.0.0']
-CORS_ALLOWED_ORIGINS = ["http://ieltsways.nimadorostkar.com:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://nimadorostkar.com", "http://ieltsways.nimadorostkar.com"]
-CSRF_TRUSTED_ORIGINS = ["http://ieltsways.nimadorostkar.com:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "http://nimadorostkar.com", "http://ieltsways.nimadorostkar.com"]
+ALLOWED_HOSTS = ['195.214.235.46','localhost','127.0.0.1','0.0.0.0', 'ieltsways.com']
+CORS_ALLOWED_ORIGINS = ["https://ioc.ieltsways.com:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://ieltsways.com", "https://ioc.ieltsways.com"]
+CSRF_TRUSTED_ORIGINS = ["https://ioc.ieltsways.com:8000", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://ieltsways.com", "https://ioc.ieltsways.com"]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_REPLACE_HTTPS_REFERER = True
 CORS_ALLOW_CREDENTIALS = True
