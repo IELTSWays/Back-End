@@ -24,8 +24,11 @@ DATABASES = {
 
 # CORSHEADERS CONFIGURATION
 
-CORS_ALLOWED_ORIGINS = get_env("CORS_ALLOWED_ORIGINS").split(",")
-CSRF_TRUSTED_ORIGINS = get_env("CSRF_TRUSTED_ORIGINS").split(",")
+#CORS_ALLOWED_ORIGINS = get_env("CORS_ALLOWED_ORIGINS").split(",")
+#CSRF_TRUSTED_ORIGINS = get_env("CSRF_TRUSTED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = ["https://.ieltsways.com", "https://api.ieltsways.com", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://ieltsways.com", "https://ioc.ieltsways.com"]
+CSRF_TRUSTED_ORIGINS = ["https://.ieltsways.com", "https://api.ieltsways.com", "http://195.214.235.46", "http://localhost", "http://127.0.0.1", "https://ieltsways.com", "https://ioc.ieltsways.com"]
+
 CORS_REPLACE_HTTPS_REFERER = True
 CORS_ALLOW_CREDENTIALS = True
 MIDDLEWARE += ("corsheaders.middleware.CorsMiddleware",)
