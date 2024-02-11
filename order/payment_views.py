@@ -171,8 +171,8 @@ class ZarinpalVerify(APIView):
         id = kwargs.get("id")
 
         if not authority or status != "OK":
-            #return redirect('https://panel.istroco.com/payment/faild')
-            return HttpResponse("payment faild...", content_type='text/plain')
+            return redirect('https://ioc.ieltsways.com/orders')
+            #return HttpResponse("payment faild...", content_type='text/plain')
 
         try:
             order = Order.objects.get(id=id, status="new")
@@ -274,9 +274,8 @@ class ZarinpalVerify(APIView):
 
                     new_test_ids.append(test.test_id)
 
-
-                #return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
-                return HttpResponse("payment done... RefID={0} and your new test ids are:{1}".format(response['RefID'],new_test_ids), content_type='text/plain')
+                return redirect('https://ioc.ieltsways.com/orders?RefID={}'.format(response['RefID']))
+                #return HttpResponse("payment done... RefID={0} and your new test ids are:{1}".format(response['RefID'],new_test_ids), content_type='text/plain')
             else:
                 return SuccessResponse(data={'status': False, 'details': 'order already paid' })
         return SuccessResponse(data=response.content)
@@ -295,8 +294,8 @@ class ZarinpalSpeakingVerify(APIView):
         id = kwargs.get("id")
 
         if not authority or status != "OK":
-            #return redirect('https://panel.istroco.com/payment/faild')
-            return HttpResponse("payment faild...", content_type='text/plain')
+            return redirect('https://ioc.ieltsways.com/orders')
+            #return HttpResponse("payment faild...", content_type='text/plain')
 
         try:
             order = SpeakingTest.objects.get(id=id, status="new")
@@ -319,8 +318,8 @@ class ZarinpalSpeakingVerify(APIView):
                 order.authority = authority
                 order.ref_id = response['RefID']
                 order.save()
-                #return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
-                return HttpResponse("payment done, RefID={}".format(response['RefID']), content_type='text/plain')
+                return redirect('https://ioc.ieltsways.com/orders?RefID={}'.format(response['RefID']))
+                #return HttpResponse("payment done, RefID={}".format(response['RefID']), content_type='text/plain')
             else:
                 return SuccessResponse(data={'status': False, 'details': 'order already paid' })
         return SuccessResponse(data=response.content)
@@ -339,8 +338,8 @@ class ZarinpalWritingVerify(APIView):
         id = kwargs.get("id")
 
         if not authority or status != "OK":
-            #return redirect('https://panel.istroco.com/payment/faild')
-            return HttpResponse("payment faild...", content_type='text/plain')
+            return redirect('https://ioc.ieltsways.com/orders')
+            #return HttpResponse("payment faild...", content_type='text/plain')
 
         try:
             order = WritingTest.objects.get(id=id, status="new")
@@ -363,8 +362,9 @@ class ZarinpalWritingVerify(APIView):
                 order.authority = authority
                 order.ref_id = response['RefID']
                 order.save()
+                return redirect('https://ioc.ieltsways.com/orders?RefID={}'.format(response['RefID']))
                 #return redirect('https://panel.istroco.com/payment/success/?RefID={}'.format(response['RefID']))
-                return HttpResponse("payment done, RefID={}".format(response['RefID']), content_type='text/plain')
+                #return HttpResponse("payment done, RefID={}".format(response['RefID']), content_type='text/plain')
             else:
                 return SuccessResponse(data={'status': False, 'details': 'order already paid' })
         return SuccessResponse(data=response.content)
