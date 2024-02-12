@@ -24,7 +24,6 @@ class CustomPagination(PageNumberPagination):
 
 
 
-
 class TestPrice(APIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
