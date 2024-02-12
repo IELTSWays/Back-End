@@ -19,7 +19,7 @@ class UserAllFieldsSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("first_name","last_name","first_Language","birth_date","province","city")
+        fields = ("first_name","last_name","first_Language","birth_date","national_code","city")
 
 
 class RegisterSerializer(serializers.ModelSerializer):
