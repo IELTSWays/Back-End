@@ -3,6 +3,8 @@ from book.models import Book
 from exam.utils import random_N_chars_str
 from accounts.models import User
 from teacher.models import Teacher, ReserveTimes
+import datetime
+from django.utils import timezone
 
 
 class TestPrice(models.Model):
@@ -41,7 +43,15 @@ class Test(models.Model):
     def __str__(self):
         return str(self.skill) +'|'+ str(self.type) +'|'+ str(self.id)
 
-
+    def is_expired(self):
+        delta = timezone.now() - self.created_at
+        delta_time_minutes = delta.total_seconds() / 60
+        if self.skill == "listening" and delta_time_minutes >= 360:
+            return True
+        elif self.skill == "reading" and delta_time_minutes >= 480:
+            return True
+        else:
+            return False
 
 
 

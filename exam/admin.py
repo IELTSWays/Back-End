@@ -3,7 +3,7 @@ from exam.models import Test, TestPrice, SpeakingTest, WritingTest, TestHistory
 from django.db import models
 
 class TestAdmin(admin.ModelAdmin):
-    list_display = ('test_id','name','skill', 'type', 'book')
+    list_display = ('test_id','name','skill', 'type', 'book', 'is_expired')
 admin.site.register(Test, TestAdmin)
 
 
