@@ -1,6 +1,6 @@
 from exam.models import Test, TestPrice, WritingTest, SpeakingTest, TestHistory
 from exam import models
-from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer,WritingCreateTestSerializer, WritingTestSerializer,SpeakingCreateTestSerializer, SpeakingTestSerializer
+from exam.serializers import QuestionSerializer, TestSerializer, AnswerSerializer,WritingCreateTestSerializer, WritingTestSerializer,SpeakingCreateTestSerializer, SpeakingTestSerializer, TestHistorySerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
@@ -15,6 +15,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 import datetime
 from django.utils import timezone
 from teacher.models import Teacher, ReserveTimes
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 class CustomPagination(PageNumberPagination):
@@ -405,12 +407,17 @@ class Report(APIView):
                     'band_score':band_score,
                     'test_created_at':test.created_at}
 
-            history = TestHistory()
+            try:
+                history = TestHistory.objects.get(test=test)
+            except:
+                history = TestHistory()
+
             history.test = test
             history.user = test.user
             history.band_score = band_score
             history.raw_score = raw_score
             history.save()
+
 
             return Response(data, status=status.HTTP_200_OK)
         except:
@@ -519,7 +526,7 @@ class AnswerWriting(APIView):
     serializer_class = WritingTestSerializer
     permission_classes = [IsAuthenticated]
     def patch(self, request, *args, **kwargs):
-        test = WritingTest.objects.get(id=self.kwargs["id"])
+        test = WritingTest.objects.get(test_id=self.kwargs["id"])
         data = self.request.data
         data['marker'] = test.marker.id
         data['user'] = test.user.id
@@ -544,3 +551,19 @@ class AnswerWriting(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
+
+
+
+class UserTestHistory(APIView):
+    serializer_class = TestHistorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, *args, **kwargs):
+        user_tests = TestHistory.objects.filter(user=self.request.user)
+        serializer = TestHistorySerializer(user_tests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+

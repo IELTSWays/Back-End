@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from exam.models import Test, WritingTest, SpeakingTest
+from exam.models import Test, WritingTest, SpeakingTest, TestHistory
 from teacher.serializers import TeacherSerializer, ReserveTimesSerializer
 from accounts.serializers import UserSerializer
 
@@ -56,4 +56,11 @@ class SpeakingTestSerializer(serializers.ModelSerializer):
 class SpeakingCreateTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpeakingTest
+        fields = "__all__"
+
+
+
+class TestHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestHistory
         fields = "__all__"
