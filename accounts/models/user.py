@@ -44,5 +44,12 @@ class User(AbstractUser):
             # Generate ID once, then check the db. If exists, keep trying.
         super(User, self).save()
 
+    def is_profile_fill(self):
+        if self.first_name is not None and self.last_name is not None and self.national_code is not None and self.birth_date is not None and self.first_Language is not None and self.city is not None:
+            return True
+        else:
+            return False
+
+
 
 

@@ -17,7 +17,7 @@ from accounts.models import OneTimePassword, User
 
 
 class Profile(APIView):
-    serializer_class = UserAllFieldsSerializer
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, *args, **kwargs):
