@@ -1,0 +1,14 @@
+STAGE="PRODUCTION"
+POSTGRES_DB="postgres"
+POSTGRES_USER="root"
+POSTGRES_PASSWORD="MyPassword123"
+SECRET_KEY="django-insecure-zmk1c2%=a2k@mj)e-ibe+4!-w9&(p9uan0*6i2vd$nkeh10uqf"
+key="django-insecure-zmk1c2%=a2k@mj)e-ibe+4!-w9&(p9uan0*6i2vd$nkeh10uqf"
+ALLOWED_HOSTS=['195.214.235.46','localhost','127.0.0.1','0.0.0.0','ieltsways.com']
+REDIS_URL="redis://redis:6379"
+CORS_ALLOWED_ORIGINS="https://api.ieltsways.com"
+CSRF_TRUSTED_ORIGINS=["https://.ieltsways.com"]
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_REPLACE_HTTPS_REFERER=True
+CORS_ALLOW_CREDENTIALS=True
+DEBUG=True
