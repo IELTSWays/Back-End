@@ -7,7 +7,7 @@ class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
         #fields = "__all__"
-        fields = ("id", "test_id", "name", "skill", "type", "user", "book", "created_at", "is_expired", "test_done", "answers")
+        fields = ("id", "test_id", "name", "skill", "type", "user", "book", "created_at", "is_expired", "confirm", "confirm_at", "test_done", "answers")
 
 
 class AnswerSerializer(serializers.Serializer):

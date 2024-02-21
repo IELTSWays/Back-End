@@ -33,6 +33,8 @@ class Test(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     answers = models.JSONField(null=True, blank=True)
     test_done = models.BooleanField(default=False)
+    confirm = models.BooleanField(default=False)
+    confirm_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

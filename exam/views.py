@@ -198,6 +198,11 @@ class Answer(APIView):
         if test.skill == "reading" and delta_time_minutes >= 480:
             return Response("Your exam time is over, reading test time is 8 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
 
+        if data['confirm']:
+            test.confirm_at = timezone.now()
+            test.save()
+
+
         serializer = self.serializer_class(test, data=data)
         if serializer.is_valid():
             serializer.save()
@@ -221,6 +226,10 @@ class Answer(APIView):
 
         if test.skill == "reading" and delta_time_minutes >= 480:
             return Response("Your exam time is over, reading test time is 8 hours.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        if data['confirm']:
+            test.confirm_at = timezone.now()
+            test.save()
 
         serializer = AnswerSerializer(test, data=self.request.data)
         if serializer.is_valid():
