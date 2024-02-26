@@ -46,6 +46,8 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "rest_framework.authtoken",
+    "ckeditor",
+    "ckeditor_uploader",
     #"zibal",
 )
 
@@ -254,6 +256,25 @@ REST_FRAMEWORK = {
 MAX_UPLOAD_SIZE = 5242880
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Format', 'Font', 'FontSize'],
+            ['Bold', 'Italic'],
+            ['TextColor', 'BGColor'],
+            ['NumberedList', 'BulletedList'],
+            #['Image', 'Flash', 'Table'],
+            ['Source']
+        ],
+        'height': 100,
+        'width': 600
+    }
+}
+
+
 
 # CORSHEADERS CONFIGURATION
 ALLOWED_HOSTS = ['195.214.235.46','localhost','127.0.0.1','0.0.0.0', 'ieltsways.com']
