@@ -266,7 +266,7 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic'],
             ['TextColor', 'BGColor'],
             ['NumberedList', 'BulletedList'],
-            #['Image', 'Flash', 'Table'],
+            ['Image', 'Flash', 'Table'],
             ['Source']
         ],
         'height': 100,
