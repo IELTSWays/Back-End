@@ -270,7 +270,7 @@ CKEDITOR_CONFIGS = {
             ['Source']
         ],
         'height': 100,
-        'width': 600
+        'width': 650
     }
 }
 

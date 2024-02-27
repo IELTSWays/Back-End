@@ -16,6 +16,7 @@ urlpatterns = [
     path("city/", include("city.urls")),
     path("book/", include("book.urls")),
     path("exam/", include("exam.urls")),
+    path("report/", include("report.urls")),
     path("answer/", include("answers.urls")),
     path("order/", include("order.urls")),
     path("teacher/", include("teacher.urls")),
