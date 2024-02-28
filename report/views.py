@@ -210,8 +210,6 @@ class FullReport(APIView):
             full_data = []
             full_ans = Answer.objects.filter(test_answer=full_correct_answer).order_by('question_number')
 
-            print('----------')
-            print(correct_answers_number)
             for ans_obj in full_ans:
                 if ans_obj.question_number in correct_answers_number:
                     is_correct = True
