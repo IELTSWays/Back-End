@@ -68,7 +68,7 @@ class FullReport(APIView):
 
                             if test_answer_value == correct_answer_value:
                                 raw_score += 1
-                                correct_answers_number.append(test_answer_key)
+                                correct_answers_number.append(int(test_answer_key))
 
                 if test.skill == "listening":
                     if raw_score == 0:
@@ -208,16 +208,19 @@ class FullReport(APIView):
             history.save()
 
             full_data = []
-            full_ans = Answer.objects.get(test_answer=full_correct_answer)
+            full_ans = Answer.objects.filter(test_answer=full_correct_answer).order_by('question_number')
 
-
-            # should check with correct_answers_number
+            print('----------')
+            print(correct_answers_number)
             for ans_obj in full_ans:
-                 full_ans_item = {"number": ans_obj.question_number, "question": ans_obj.question, "keywords":ans_obj.keywords }
-                 full_data.append(full_ans_item)
+                if ans_obj.question_number in correct_answers_number:
+                    is_correct = True
+                else:
+                    is_correct = False
+                full_ans_item = {"number": ans_obj.question_number,"is_correct":is_correct, "question": ans_obj.question, "answer":ans_obj.answer, "keywords":ans_obj.keywords, "full_answer":ans_obj.full_answer }
+                full_data.append(full_ans_item)
 
             data = {"short_data":short_data,"full_data":full_data}
-
 
             return Response(data, status=status.HTTP_200_OK)
         except:

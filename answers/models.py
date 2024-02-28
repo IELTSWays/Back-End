@@ -43,8 +43,7 @@ class Answer(models.Model):
     answer = models.CharField(max_length=256, null=True, blank=True)
     question = models.CharField(max_length=256, null=True, blank=True)
     keywords = models.CharField(max_length=256, null=True, blank=True)
-    full_answer = RichTextField(max_length=2500, null=True, blank=True)
-    #content = RichTextField()
+    full_answer = RichTextField(max_length=7000, null=True, blank=True)
 
     def __str__(self):
         return str(self.answer) + ' | ' + str(self.test_answer)
