@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from teacher.serializers import TeacherSerializer,ReserveTimesSerializer, TeachersReserveTimesSerializer
+from teacher.serializers import TeacherSerializer,ReserveTimesSerializer, TeachersReserveTimesSerializer, TeacherUpdateSerializer, TeacherUpdatePhotoSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import User
 from teacher.models import Teacher,ReserveTimes
@@ -86,22 +86,31 @@ class TeacherTimes(APIView):
 
 
 
-
-# should edit....
-
 class TeacherProfile(APIView):
     serializer_class = TeacherSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, *args, **kwargs):
-        serializer = self.serializer_class(self.request.user)
+        teacher = Teacher.objects.get(user=self.request.user)
+        serializer = self.serializer_class(teacher)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, *args, **kwargs):
-        profile = User.objects.get(id=self.request.user.id)
-        serializer = TeacherSerializer(profile, data=self.request.data)
+        teacher = Teacher.objects.get(user=self.request.user)
+        serializer = TeacherUpdateSerializer(teacher, data=self.request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    def post(self, *args, **kwargs):
+        teacher = Teacher.objects.get(user=self.request.user)
+        serializer = TeacherUpdatePhotoSerializer(teacher, data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
 

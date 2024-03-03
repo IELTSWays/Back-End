@@ -8,6 +8,21 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+
+class TeacherUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ("name","description","writing_price", "speaking_price")
+
+class TeacherUpdatePhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ("photo",)
+
+
+
+
+
 class ReserveTimesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReserveTimes
