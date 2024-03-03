@@ -82,3 +82,26 @@ class TeacherTimes(APIView):
 
         return Response(data, status=status.HTTP_200_OK)
 
+
+
+
+
+
+# should edit....
+
+class TeacherProfile(APIView):
+    serializer_class = TeacherSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, *args, **kwargs):
+        serializer = self.serializer_class(self.request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, *args, **kwargs):
+        profile = User.objects.get(id=self.request.user.id)
+        serializer = TeacherSerializer(profile, data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
