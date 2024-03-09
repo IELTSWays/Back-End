@@ -211,6 +211,7 @@ class Answer(APIView):
 
     def post(self, request, *args, **kwargs):
         test = Test.objects.get(test_id=self.kwargs["id"])
+        data = self.request.data
 
         if self.request.user != test.user:
             return Response("You are not allowed to take this exam.",status=status.HTTP_406_NOT_ACCEPTABLE)

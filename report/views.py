@@ -20,7 +20,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 
-
 class FullReport(APIView):
     serializer_class = TestSerializer
     permission_classes = [IsAuthenticated]
