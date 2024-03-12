@@ -1,8 +1,6 @@
 # IELTSWays Back-end
 
-
 ### IELTS Online Practice Tests 
-
 
 [![](https://img.shields.io/badge/python-3.10-orange)](https://www.python.org/)
 [![](https://img.shields.io/badge/Django-4.1-green)](https://www.djangoproject.com/)
@@ -51,7 +49,6 @@ docker exec -it container_id python manage.py createsuperuser
 ```bash
 docker-compose up -d --build
 ```
-
 
 
  enjoy!
