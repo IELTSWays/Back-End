@@ -54,11 +54,14 @@ class FullReport(APIView):
 
                 raw_score = 0
                 correct_answers_number = []
+                none_answers_number = []
                 for correct_answer_key, correct_answer_value in correct_answer_resp.items():
                     for test_answer_key, test_answer_value in test_answer_resp.items():
 
                         if test_answer_key == correct_answer_key:
-                            # print(test_answer_key, test_answer_value, correct_answer_value)
+                            #print(test_answer_key, test_answer_value, correct_answer_value)
+                            if test_answer_value == None:
+                                none_answers_number.append(int(test_answer_key))
 
                             if type(correct_answer_value) is list:
                                 for item in correct_answer_value:
@@ -212,6 +215,8 @@ class FullReport(APIView):
             for ans_obj in full_ans:
                 if ans_obj.question_number in correct_answers_number:
                     is_correct = True
+                elif ans_obj.question_number in none_answers_number:
+                    is_correct = "not-answer"
                 else:
                     is_correct = False
                 full_ans_item = {"number": ans_obj.question_number,"is_correct":is_correct, "question": ans_obj.question, "answer":ans_obj.answer, "keywords":ans_obj.keywords, "full_answer":ans_obj.full_answer }
