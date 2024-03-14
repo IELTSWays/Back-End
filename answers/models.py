@@ -36,7 +36,6 @@ class TestFullCorrectAnswer(models.Model):
 
 
 
-
 class Answer(models.Model):
     test_answer = models.ForeignKey(TestFullCorrectAnswer,on_delete=models.CASCADE)
     question_number = models.IntegerField()
@@ -47,7 +46,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return str(self.answer) + ' | ' + str(self.test_answer)
-
 
 
 
@@ -68,6 +66,7 @@ class TestMediaAnswer(models.Model):
 
 
 
+
 class MediaAnswer(models.Model):
     test_answer = models.ForeignKey(TestMediaAnswer,on_delete=models.CASCADE)
     question_number = models.IntegerField()
@@ -76,4 +75,3 @@ class MediaAnswer(models.Model):
 
     def __str__(self):
         return str(self.test_answer) + ' | ' + str(self.question_number)
-
