@@ -1,5 +1,5 @@
 from django.contrib import admin
-from answers.models import TestCorrectAnswer, TestFullCorrectAnswer, Answer
+from answers.models import TestCorrectAnswer, TestFullCorrectAnswer, Answer, TestMediaAnswer, MediaAnswer
 from django.db import models
 from ckeditor.widgets import CKEditorWidget
 from django import forms
@@ -26,10 +26,14 @@ admin.site.register(TestFullCorrectAnswer, TestFullCorrectAnswerAdmin)
 
 
 
-'''
 
-class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('test_answer', 'question_number')
-admin.site.register(Answer, AnswerAdmin)
 
-'''
+class MediaAnswerInline(admin.TabularInline):
+    model = MediaAnswer
+    extra = 1
+
+class TestMediaAnswerAdmin(admin.ModelAdmin):
+    list_display = ('name','skill', 'type', 'book')
+    inlines = [MediaAnswerInline, ]
+admin.site.register(TestMediaAnswer, TestMediaAnswerAdmin)
+
