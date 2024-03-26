@@ -39,6 +39,9 @@ class Test(models.Model):
     full_report_paid = models.BooleanField(default=False)
     full_report_authority = models.CharField(max_length=128,null=True,blank=True)
     full_report_ref_id = models.CharField(max_length=128,null=True,blank=True)
+    media_report_paid = models.BooleanField(default=False)
+    media_report_authority = models.CharField(max_length=128, null=True, blank=True)
+    media_report_ref_id = models.CharField(max_length=128, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.test_id:
