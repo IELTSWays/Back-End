@@ -310,6 +310,7 @@ ZP_API_REQUEST = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.js
 ZP_API_VERIFY = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
 ZP_API_STARTPAY = "https://sandbox.zarinpal.com/pg/StartPay/"
 ZARIN_CALL_BACK = 'https://api.ieltsways.com/order/zarinpal-verify/'
+REPORT_ZARIN_CALL_BACK = 'http://127.0.0.1:8000/report/full-report-verify/'
 ZARIN_SPEAKING_CALL_BACK = 'https://api.ieltsways.com/order/zarinpal-speaking-verify/'
 ZARIN_WRITING_CALL_BACK = 'https://api.ieltsways.com/order/zarinpal-writing-verify/'
 # END ZARRINPAL CONFIGURATION

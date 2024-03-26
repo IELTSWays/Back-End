@@ -36,6 +36,9 @@ class Test(models.Model):
     confirm = models.BooleanField(default=False)
     confirm_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    full_report_paid = models.BooleanField(default=False)
+    full_report_authority = models.CharField(max_length=128,null=True,blank=True)
+    full_report_ref_id = models.CharField(max_length=128,null=True,blank=True)
 
     def save(self, *args, **kwargs):
         if not self.test_id:
