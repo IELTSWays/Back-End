@@ -6,7 +6,8 @@ from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import json
-from answers.models import TestCorrectAnswer
+from answers.models import TestCorrectAnswer, TestFullCorrectAnswer
+from answers import models as ans_models
 from rest_framework.generics import GenericAPIView
 from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 from rest_framework import pagination
@@ -112,46 +113,46 @@ class StartTestNew(APIView):
         data['name'] = 'B'+str(data['book'])+str(skill)+'T'+str(data['test'])
 
         data['answers'] = {
-            "00001": None,
-            "00002": None,
-            "00003": None,
-            "00004": None,
-            "00005": None,
-            "00006": None,
-            "00007": None,
-            "00008": None,
-            "00009": None,
-            "00010": None,
-            "00011": None,
-            "00012": None,
-            "00013": None,
-            "00014": None,
-            "00015": None,
-            "00016": None,
-            "00017": None,
-            "00018": None,
-            "00019": None,
-            "00020": None,
-            "00021": None,
-            "00022": None,
-            "00023": None,
-            "00024": None,
-            "00025": None,
-            "00026": None,
-            "00027": None,
-            "00028": None,
-            "00029": None,
-            "00030": None,
-            "00031": None,
-            "00032": None,
-            "00033": None,
-            "00034": None,
-            "00035": None,
-            "00036": None,
-            "00037": None,
-            "00038": None,
-            "00039": None,
-            "00040": None }
+            "1": None,
+            "2": None,
+            "3": None,
+            "4": None,
+            "5": None,
+            "6": None,
+            "7": None,
+            "8": None,
+            "9": None,
+            "10": None,
+            "11": None,
+            "12": None,
+            "13": None,
+            "14": None,
+            "15": None,
+            "16": None,
+            "17": None,
+            "18": None,
+            "19": None,
+            "20": None,
+            "21": None,
+            "22": None,
+            "23": None,
+            "24": None,
+            "25": None,
+            "26": None,
+            "27": None,
+            "28": None,
+            "29": None,
+            "30": None,
+            "31": None,
+            "32": None,
+            "33": None,
+            "34": None,
+            "35": None,
+            "36": None,
+            "37": None,
+            "38": None,
+            "39": None,
+            "40": None }
 
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
@@ -269,6 +270,11 @@ class Report(APIView):
             except:
                 return Response("Test correct answer not found.", status=status.HTTP_400_BAD_REQUEST)
 
+            try:
+                full_correct_answer = TestFullCorrectAnswer.objects.get(name=test.name)
+            except:
+                return Response("Test full correct answer not found.", status=status.HTTP_400_BAD_REQUEST)
+
 
             try:
                 correct_answer_json_str = json.dumps(correct_answer.answers)
@@ -277,11 +283,15 @@ class Report(APIView):
                 test_answer_resp = json.loads(test_answer_json_str)
 
                 raw_score = 0
+                correct_answers_number = []
+                none_answers_number = []
                 for correct_answer_key, correct_answer_value in correct_answer_resp.items():
                     for test_answer_key, test_answer_value in test_answer_resp.items():
 
                         if test_answer_key == correct_answer_key:
                             # print(test_answer_key, test_answer_value, correct_answer_value)
+                            if test_answer_value == None:
+                                none_answers_number.append(int(test_answer_key))
 
                             if type(correct_answer_value) is list:
                                 for item in correct_answer_value:
@@ -290,6 +300,7 @@ class Report(APIView):
 
                             if test_answer_value == correct_answer_value:
                                 raw_score += 1
+                                correct_answers_number.append(int(test_answer_key))
 
                 if test.skill == "listening":
                     if raw_score == 0:
@@ -403,19 +414,18 @@ class Report(APIView):
             except:
                 return Response("Error in the test correction process.", status=status.HTTP_400_BAD_REQUEST)
 
-
-            data = {'user_id':test.user.id,
-                    'user_phone': test.user.phone_number,
-                    'user_first_name': test.user.first_name,
-                    'user_last_name': test.user.last_name,
-                    'test_id':test.test_id,
-                    'test_name': test.name,
-                    'skill':test.skill,
-                    'type':test.type,
-                    'book': test.book.name,
-                    'raw_score':raw_score,
-                    'band_score':band_score,
-                    'test_created_at':test.created_at}
+            short_data = {'user_id': test.user.id,
+                          'user_phone': test.user.phone_number,
+                          'user_first_name': test.user.first_name,
+                          'user_last_name': test.user.last_name,
+                          'test_id': test.test_id,
+                          'test_name': test.name,
+                          'skill': test.skill,
+                          'type': test.type,
+                          'book': test.book.name,
+                          'raw_score': raw_score,
+                          'band_score': band_score,
+                          'test_created_at': test.created_at}
 
             try:
                 history = TestHistory.objects.get(test=test)
@@ -427,6 +437,22 @@ class Report(APIView):
             history.band_score = band_score
             history.raw_score = raw_score
             history.save()
+
+            full_data = []
+            full_ans = ans_models.Answer.objects.filter(test_answer=full_correct_answer).order_by('question_number')
+
+            for ans_obj in full_ans:
+                if ans_obj.question_number in correct_answers_number:
+                    is_correct = True
+                elif ans_obj.question_number in none_answers_number:
+                    is_correct = "not-answer"
+                else:
+                    is_correct = False
+                full_ans_item = {"number": ans_obj.question_number, "is_correct": is_correct,
+                                 "question": ans_obj.question, "answer": ans_obj.answer}
+                full_data.append(full_ans_item)
+
+            data = {"short_data": short_data, "full_data": full_data}
 
 
             return Response(data, status=status.HTTP_200_OK)
