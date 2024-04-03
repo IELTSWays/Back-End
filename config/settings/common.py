@@ -41,14 +41,8 @@ THIRD_PARTY_APPS = (
     "corsheaders",
     "gunicorn",
     "django.contrib.sites",
-    #"allauth",
-    #"allauth.socialaccount",
-    #"allauth.socialaccount.providers.google",
-    #"dj_rest_auth",
-    #"rest_framework.authtoken",
     "ckeditor",
     "ckeditor_uploader",
-    #"zibal",
     "oauth2_provider",
     "social_django",
     "drf_social_oauth2",
@@ -66,7 +60,6 @@ LOCAL_APPS = (
     "teacher",
     "answers",
     "report",
-    #"oauth",
 )
 
 
@@ -82,8 +75,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    #"allauth.account.middleware.AccountMiddleware",
-    #"utilities.middlware.CrossDomainSessionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -204,42 +195,6 @@ REFRESH_TTL = int(get_env("REFRESH_TTL", default="2"))  # days
 
 
 
-'''
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email', 'public_profile', 'user_friends'],
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time'
-        ],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': lambda request: 'en_US'
-    },
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-            'https://www.googleapis.com/auth/contacts.readonly'
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online'
-        }
-    },
-}
-'''
-
-
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'drf_social_oauth2.backends.DjangoOAuth2',
@@ -261,7 +216,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "accounts.backends.JWTAuthentication",
-        #'allauth.account.auth_backends.AuthenticationBackend',
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
         "drf_social_oauth2.authentication.SocialAuthentication",
     ),

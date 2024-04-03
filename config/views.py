@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.views.generic.base import View
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from accounts.models import User
 from config import responses
@@ -9,12 +9,9 @@ from rest_framework import status
 from rest_framework.response import Response
 import requests
 from accounts.functions import get_user_data, login
-from accounts.models import OneTimePassword
-from accounts.selectors import get_user
 from config.settings import ACCESS_TTL
 from accounts.serializers import UserSerializer
-from django.utils.translation import gettext as _
-from accounts.utils import random_N_chars_str, random_with_N_digits
+from accounts.utils import random_with_N_digits
 
 
 def index(request):
@@ -25,7 +22,7 @@ def index(request):
 class GoogleAuthRedirect(View):
     permission_classes = [AllowAny]
     def get(self, request):
-        redirect_url = f"https://accounts.google.com/o/oauth2/v2/auth?client_id={settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&access_type=offline&redirect_uri=http://127.0.0.1:8000/google-redirect/"
+        redirect_url = f"https://accounts.google.com/o/oauth2/v2/auth?client_id={settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&access_type=offline&redirect_uri=https://api.ieltsways.com/google-redirect/"
         return redirect(redirect_url)
 
 
@@ -43,7 +40,7 @@ class GoogleRedirectURIView(APIView):
                 'code': code,
                 'client_id': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
                 'client_secret': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
-                'redirect_uri': 'http://127.0.0.1:8000/google-redirect/',
+                'redirect_uri': 'https://api.ieltsways.com/google-redirect/',
                 # Must match the callback URL configured in your Google API credentials
                 'grant_type': 'authorization_code',
             }
