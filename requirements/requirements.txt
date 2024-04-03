@@ -21,7 +21,4 @@ factory-boy==3.2.1
 django-mptt
 django-ckeditor==6.5.0
 django-allauth==0.60.1
-dj-rest-auth==5.0.2
-telegram
-python-telegram-bot
-#zibal-django
+drf_social_oauth2==2.1.3

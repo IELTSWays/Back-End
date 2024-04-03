@@ -41,14 +41,17 @@ THIRD_PARTY_APPS = (
     "corsheaders",
     "gunicorn",
     "django.contrib.sites",
-    "allauth",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
-    "dj_rest_auth",
-    "rest_framework.authtoken",
+    #"allauth",
+    #"allauth.socialaccount",
+    #"allauth.socialaccount.providers.google",
+    #"dj_rest_auth",
+    #"rest_framework.authtoken",
     "ckeditor",
     "ckeditor_uploader",
     #"zibal",
+    "oauth2_provider",
+    "social_django",
+    "drf_social_oauth2",
 )
 
 # Apps specific for this project go here.
@@ -63,7 +66,7 @@ LOCAL_APPS = (
     "teacher",
     "answers",
     "report",
-    "oauth",
+    #"oauth",
 )
 
 
@@ -99,6 +102,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -199,7 +204,7 @@ REFRESH_TTL = int(get_env("REFRESH_TTL", default="2"))  # days
 
 
 
-
+'''
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'METHOD': 'oauth2',
@@ -232,11 +237,23 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     },
 }
+'''
 
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'drf_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+# Google Configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "366111965494-bbgflimp8s9dtndoufsah3v235bt8lhh.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
 
-
-
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
 
 
 
@@ -245,6 +262,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "accounts.backends.JWTAuthentication",
         #'allauth.account.auth_backends.AuthenticationBackend',
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "drf_social_oauth2.authentication.SocialAuthentication",
     ),
     "DEFAULT_THROTTLE_RATES": {"otp": get_env("OTP_THROTTLE_RATE", default="10/min"), },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

@@ -3,13 +3,13 @@ from django.contrib import admin
 from django.urls import include, path
 from config.settings import STATIC_ROOT, STATIC_URL, MEDIA_URL, MEDIA_ROOT
 from . import views
-from oauth.views import GoogleLoginView, UserRedirectView
+#from oauth.views import UserRedirectView
 
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path("auth/google/login/", GoogleLoginView.as_view(), name="google_login"),
-    path("redirect/", UserRedirectView.as_view(), name="redirect"),
+    #path("auth/google/login/", GoogleLoginView.as_view(), name="google_login"),
+    path("redirect/", include('drf_social_oauth2.urls')),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("ticket/", include("ticket.urls")),
@@ -20,6 +20,7 @@ urlpatterns = [
     path("answer/", include("answers.urls")),
     path("order/", include("order.urls")),
     path("teacher/", include("teacher.urls")),
+    path("auth/", include('drf_social_oauth2.urls', namespace="drf")),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
