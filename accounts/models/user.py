@@ -29,6 +29,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=128,blank=True,null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    wrong_phone = models.BooleanField(default=False)
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "phone_number"
