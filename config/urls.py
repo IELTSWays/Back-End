@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.urls import include, path
 from config.settings import STATIC_ROOT, STATIC_URL, MEDIA_URL, MEDIA_ROOT
 from . import views
-#from oauth.views import UserRedirectView
 
 
 urlpatterns = [
@@ -21,6 +20,7 @@ urlpatterns = [
     path("order/", include("order.urls")),
     path("teacher/", include("teacher.urls")),
     path("auth/", include('drf_social_oauth2.urls', namespace="drf")),
+    path("google-signup/", views.GoogleAuthRedirect.as_view()),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
