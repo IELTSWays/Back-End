@@ -23,7 +23,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     #phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
-    phone_number = models.CharField(max_length=11, blank=False, unique=True, null=False)
+    phone_number = models.CharField(max_length=100, blank=False, unique=True, null=False)
     email = models.EmailField(max_length=70,null=True,blank=True,unique=True)
     first_Language = models.CharField(max_length=50,null=True,blank=True)
     birth_date = models.DateField(null=True,blank=True)
