@@ -194,12 +194,13 @@ REFRESH_TTL = int(get_env("REFRESH_TTL", default="2"))  # days
 
 
 
-
+'''
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'drf_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
+'''
 # Google Configuration
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "366111965494-bbgflimp8s9dtndoufsah3v235bt8lhh.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
