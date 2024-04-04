@@ -22,17 +22,18 @@ class User(AbstractUser):
     national_code = models.CharField(max_length=50,null=True,blank=True)
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
-    phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
+    #phone_number = models.CharField(validators=[phone_regex],max_length=11,blank=False,unique=True,null=False)
+    phone_number = models.CharField(max_length=11, blank=False, unique=True, null=False)
     email = models.EmailField(max_length=70,null=True,blank=True,unique=True)
     first_Language = models.CharField(max_length=50,null=True,blank=True)
     birth_date = models.DateField(null=True,blank=True)
     city = models.CharField(max_length=128,blank=True,null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    wrong_phone = models.BooleanField(default=False)
+    #wrong_phone = models.BooleanField(default=False)
 
     EMAIL_FIELD = "email"
-    USERNAME_FIELD = "phone_number"
+    USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
     objects = UserManager()
 
@@ -46,7 +47,7 @@ class User(AbstractUser):
         super(User, self).save()
 
     def is_profile_fill(self):
-        if self.first_name is not None and self.last_name is not None and self.national_code is not None and self.birth_date is not None and self.first_Language is not None and self.city is not None:
+        if self.first_name is not None and self.last_name is not None and self.phone_number is not None and self.national_code is not None and self.birth_date is not None and self.first_Language is not None and self.city is not None:
             return True
         else:
             return False

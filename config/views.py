@@ -61,8 +61,8 @@ class GoogleRedirectURIView(APIView):
                         data = {}
                         profile_data = profile_response.json()
                         # Proceed with user creation or login
-                        random_num = '09{}'.format(random_with_N_digits(9))
-                        user = User.objects.create_user(first_name=profile_data["given_name"], email=profile_data["email"], phone_number=random_num)
+                        #random_num = '09{}'.format(random_with_N_digits(9))
+                        user = User.objects.create_user(first_name=profile_data["given_name"], email=profile_data["email"],username=profile_data["email"] , phone_number=profile_data["email"])
                         if "family_name" in profile_data:
                             user.last_name = profile_data["family_name"]
                             user.save()

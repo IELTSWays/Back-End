@@ -39,7 +39,7 @@ class SendOTP(APIView):
         if User.objects.filter(phone_number=phone_number).exists():
             user = User.objects.get(phone_number=phone_number)
         else:
-            user = User.objects.create_user(phone_number=phone_number)
+            user = User.objects.create_user(phone_number=phone_number,username=phone_number)
 
         otp = OneTimePassword(user)
         print('---- OTP ----')
