@@ -24,7 +24,7 @@ jobs:
           docker push nimadorostkar/ieltsways:latest
       
       - name: Deploy to VPS
-        uses: nimadorostkar/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: http://195.214.235.46
           username: root
