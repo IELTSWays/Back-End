@@ -31,5 +31,5 @@ jobs:
           password: dssdvSDVSDVqwc21
           script: |
             docker pull nimadorostkar/ieltsways:latest
-            cd ieltsways
+            cd ~/../IELTSWays/Back-End/
             docker-compose up -d --build
