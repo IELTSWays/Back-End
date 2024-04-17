@@ -1,18 +1,41 @@
-name: Docker Image CI
+name: Deploy Docker Image to VPS
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - master
 
 jobs:
-
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          dockerfile: Dockerfile  # Path to your Dockerfile
+
+      - name: Build Docker image
+        run: docker build -t myapp:latest .
+
+      - name: Log in to Docker Hub (if using a private registry)
+        run: docker login -u nimadorostkar -p 2620376513nima!!
+
+      - name: Push Docker image to registry
+        run: docker push myapp:latest
+
+      - name: SSH into VPS and update container
+        uses: appleboy/ssh-action@master
+        with:
+          host: http://195.214.235.46
+          username: root
+          key: dssdvSDVSDVqwc21
+          script: |
+            docker pull myapp:latest
+            docker stop myapp-container || true
+            docker rm myapp-container || true
+            docker-compose up -d --build
+            
