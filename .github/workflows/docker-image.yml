@@ -30,6 +30,6 @@ jobs:
           username: root
           password: dssdvSDVSDVqwc21
           script: |
-            docker pull nimadorostkar/ieltsways:latest
             cd ~/../IELTSWays/Back-End/
+            git pull
             docker-compose up -d --build
