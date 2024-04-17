@@ -1,41 +1,35 @@
-name: Deploy Docker Image to VPS
+name: Deploy to VPS
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  deploy:
+  build_and_push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout the repo
         uses: actions/checkout@v2
-
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
+      
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
         with:
-          dockerfile: Dockerfile  # Path to your Dockerfile
-
-      - name: Build Docker image
-        run: docker build -t myapp:latest .
-
-      - name: Log in to Docker Hub (if using a private registry)
-        run: docker login -u nimadorostkar -p 2620376513nima!!
-
-      - name: Push Docker image to registry
-        run: docker push myapp:latest
-
-      - name: SSH into VPS and update container
-        uses: appleboy/ssh-action@master
+          username: nimadorostkar
+          password: 2620376513nima!!
+      
+      - name: Build and push Docker image
+        run: |
+          docker build -t nimadorostkar/ieltsways:latest .
+          docker push nimadorostkar/ieltsways:latest
+      
+      - name: Deploy to VPS
+        uses: nimadorostkar/ssh-action@master
         with:
           host: http://195.214.235.46
           username: root
-          key: dssdvSDVSDVqwc21
+          password: dssdvSDVSDVqwc21
           script: |
-            docker pull myapp:latest
-            docker stop myapp-container || true
-            docker rm myapp-container || true
+            docker pull nimadorostkar/ieltsways:latest
+            cd ieltsways
             docker-compose up -d --build
-            
