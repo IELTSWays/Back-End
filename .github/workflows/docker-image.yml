@@ -12,17 +12,6 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       
-      - name: Login to Dockerhub
-        uses: docker/login-action@v1
-        with:
-          username: nimadorostkar
-          password: 2620376513nima!!
-      
-      - name: Build and push Docker image
-        run: |
-          docker build -t nimadorostkar/ieltsways:latest .
-          docker push nimadorostkar/ieltsways:latest
-      
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
