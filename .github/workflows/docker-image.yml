@@ -8,10 +8,7 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v2
-      
+    steps:      
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
