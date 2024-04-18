@@ -33,3 +33,5 @@ jobs:
             docker pull nimadorostkar/ieltsways:latest
             cd ~/../IELTSWays/Back-End/
             docker-compose up -d --build
+
+            
