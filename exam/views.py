@@ -288,8 +288,8 @@ class Report(APIView):
                 for correct_answer_key, correct_answer_value in correct_answer_resp.items():
                     for test_answer_key, test_answer_value in test_answer_resp.items():
 
-                        if test_answer_key == correct_answer_key:
-                            # print(test_answer_key, test_answer_value, correct_answer_value)
+                        if int(test_answer_key) == int(correct_answer_key):
+                            #print(test_answer_key, test_answer_value, correct_answer_value)
                             if test_answer_value == None:
                                 none_answers_number.append(int(test_answer_key))
 

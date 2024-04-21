@@ -1,5 +1,5 @@
 from django.urls import path
-from report.views import FullReport, MediaReport, FullReportPayment, FullReportVerify, MediaReportPayment, MediaReportVerify
+from report.views import FullReport, MediaReport, FullReportPayment, FullReportVerify, MediaReportPayment, MediaReportVerify,FullReportOne
 
 urlpatterns = [
     path('full-report/<str:id>', FullReport.as_view(), name='full-report'),
@@ -8,6 +8,7 @@ urlpatterns = [
     path('media-report/<str:id>', MediaReport.as_view(), name='media-report'),
     path('media-report-payment/<str:id>', MediaReportPayment.as_view(), name='media-report-payment'),
     path('media-report-verify/<str:id>/', MediaReportVerify.as_view(), name='media-report-verify'),
+    path('full-report-one/<str:id>', FullReportOne.as_view(), name='full-report-one'),
 ]
 
 
