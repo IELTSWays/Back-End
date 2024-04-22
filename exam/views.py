@@ -448,8 +448,13 @@ class Report(APIView):
                     is_correct = "not-answer"
                 else:
                     is_correct = False
+
+                for test_answer_key, test_answer_value in test_answer_resp.items():
+                    if int(test_answer_key) == int(ans_obj.question_number):
+                        user_answer = test_answer_value
+
                 full_ans_item = {"number": ans_obj.question_number, "is_correct": is_correct,
-                                 "question": ans_obj.question, "answer": ans_obj.answer}
+                                 "question": ans_obj.question, "answer": ans_obj.answer,"user_answer": user_answer}
                 full_data.append(full_ans_item)
 
             data = {"short_data": short_data, "full_data": full_data}
