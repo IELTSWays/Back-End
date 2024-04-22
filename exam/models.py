@@ -99,9 +99,6 @@ class SpeakingTest(models.Model):
 
 
 
-
-
-
 class WritingTest(models.Model):
     choices = (("new", "new"), ("pending", "pending"), ("canceled", "canceled"), ("paid", "paid"))
     status = models.CharField(choices=choices, default="new", max_length=128)
@@ -137,7 +134,6 @@ class WritingTest(models.Model):
 
 
 
-
 class TestHistory(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -148,6 +144,4 @@ class TestHistory(models.Model):
 
     def __str__(self):
         return str(self.test) +'|'+ str(self.user) +'|'+ str(self.created_at)
-
-
 
