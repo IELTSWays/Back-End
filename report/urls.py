@@ -10,5 +10,3 @@ urlpatterns = [
     path('media-report-verify/<str:id>/', MediaReportVerify.as_view(), name='media-report-verify'),
     path('full-report-one/<str:id>', FullReportOne.as_view(), name='full-report-one'),
 ]
-
-
