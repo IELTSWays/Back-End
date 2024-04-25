@@ -70,8 +70,10 @@ class TestMediaAnswer(models.Model):
 class MediaAnswer(models.Model):
     test_answer = models.ForeignKey(TestMediaAnswer,on_delete=models.CASCADE)
     question_number = models.IntegerField()
-    video = models.FileField(upload_to='video_answer')
-    audio = models.FileField(upload_to='audio_answer')
+    #video = models.FileField(upload_to='video_answer')
+    video = models.CharField(max_length=256, null=True, blank=True)
+    #audio = models.FileField(upload_to='audio_answer')
+    audio = models.CharField(max_length=256, null=True, blank=True)
 
     def __str__(self):
         return str(self.test_answer) + ' | ' + str(self.question_number)

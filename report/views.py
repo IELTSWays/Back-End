@@ -449,7 +449,7 @@ class FullReportOne(APIView):
                         user_answer = test_answer_value
 
                 full_ans_item = {"number": ans_obj.question_number, "is_correct": is_correct,"user_answer":user_answer,
-                                 "video": ans_obj.video.url, "audio": ans_obj.audio.url}
+                                 "video": ans_obj.video, "audio": ans_obj.audio}
                 full_media_data.append(full_ans_item)
 
             for ans_obj in full_ans:
@@ -669,7 +669,7 @@ class MediaReport(APIView):
                     if int(test_answer_key) == int(ans_obj.question_number):
                         user_answer = test_answer_value
 
-                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"video":ans_obj.video.url,"audio":ans_obj.audio.url }
+                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"video":ans_obj.video,"audio":ans_obj.audio }
                 full_data.append(full_ans_item)
 
             data = {"short_data":short_data,"full_data":full_data}
@@ -1397,7 +1397,7 @@ class MediaReportPayment(APIView):
                     if int(test_answer_key) == int(ans_obj.question_number):
                         user_answer = test_answer_value
 
-                full_ans_item = {"number": ans_obj.question_number,"is_correct":is_correct,"user_answer":user_answer, "video":ans_obj.video.url,"audio":ans_obj.audio.url }
+                full_ans_item = {"number": ans_obj.question_number,"is_correct":is_correct,"user_answer":user_answer, "video":ans_obj.video,"audio":ans_obj.audio }
                 full_data.append(full_ans_item)
 
             data = {"short_data":short_data,"full_data":full_data}
@@ -1656,7 +1656,7 @@ class MediaReportVerify(APIView):
                             user_answer = test_answer_value
 
                     full_ans_item = {"number": ans_obj.question_number, "is_correct": is_correct, "user_answer":user_answer,
-                                     "video": ans_obj.video.url, "audio": ans_obj.audio.url}
+                                     "video": ans_obj.video, "audio": ans_obj.audio}
                     full_data.append(full_ans_item)
 
                 data = {"short_data": short_data, "full_data": full_data}
@@ -1864,7 +1864,7 @@ class VideoReport(APIView):
                     if int(test_answer_key) == int(ans_obj.question_number):
                         user_answer = test_answer_value
 
-                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"video":ans_obj.video.url }
+                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"video":ans_obj.video }
                 full_data.append(full_ans_item)
 
             data = {"short_data":short_data,"full_data":full_data}
@@ -2074,7 +2074,7 @@ class AudioReport(APIView):
                     if int(test_answer_key) == int(ans_obj.question_number):
                         user_answer = test_answer_value
 
-                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"audio":ans_obj.audio.url }
+                full_ans_item = {"number": ans_obj.question_number,"user_answer":user_answer, "is_correct":is_correct,"audio":ans_obj.audio }
                 full_data.append(full_ans_item)
 
             data = {"short_data":short_data,"full_data":full_data}
