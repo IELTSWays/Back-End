@@ -23,5 +23,5 @@ django-ckeditor==6.5.0
 django-allauth==0.60.1
 drf_social_oauth2==2.1.3
 django-storages==1.14.2
-dropbox
+whitenoise
 boto3
