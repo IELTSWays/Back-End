@@ -1,5 +1,6 @@
 from os import environ
 from pathlib import Path
+from urllib.parse import quote
 
 
 # GET ENV UTIL
@@ -46,6 +47,9 @@ THIRD_PARTY_APPS = (
     "oauth2_provider",
     "social_django",
     "drf_social_oauth2",
+    "storages",
+    "dropbox",
+    "whitenoise",
 )
 
 # Apps specific for this project go here.
@@ -148,13 +152,67 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+'''
+DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropboxStorage"
+STATICFILES_STORAGE = "storages.backends.dropbox.DropboxStorage"
+DROPBOX_OAUTH2_TOKEN = 'sl.B0QgKhXh9pTYG2vtkLwr80zpLEqcRSFthu0h9qAhQYVrNHlH2KPIHRhxcnLkZ2wujHIfr6HvwSuuVMjM1tbe-RxMm-Vbvv42hagyW5Acag0bA_l_TgX8CzdkEJOUaZhN8PNGnJm5eAym'
+DROPBOX_ROOT_PATH = '/'
+DROPBOX_APP_KEY = "qvnub2a1xi9x0cf"
+DROPBOX_APP_SECRET = "n2sn1aat2h7llu8"
+DROPBOX_OAUTH2_REFRESH_TOKEN = "w63Sx2mDljAAAAAAAAABfV0gcdxkSiBESjvMUcMia70"
+DROPBOX_refresh_token = "w63Sx2mDljAAAAAAAAABfV0gcdxkSiBESjvMUcMia70"
+DROPBOX_access_token = "sl.B0QgKhXh9pTYG2vtkLwr80zpLEqcRSFthu0h9qAhQYVrNHlH2KPIHRhxcnLkZ2wujHIfr6HvwSuuVMjM1tbe-RxMm-Vbvv42hagyW5Acag0bA_l_TgX8CzdkEJOUaZhN8PNGnJm5eAym"
+DROPBOX_AUTHORIZATION_CODE = "w63Sx2mDljAAAAAAAAABfV0gcdxkSiBESjvMUcMia70"
+DROPBOX_TIMEOUT = 100
+DROPBOX_WRITE_MODE = "add"
+DROPBOX_ACCESS_TOKEN = "sl.B0QgKhXh9pTYG2vtkLwr80zpLEqcRSFthu0h9qAhQYVrNHlH2KPIHRhxcnLkZ2wujHIfr6HvwSuuVMjM1tbe-RxMm-Vbvv42hagyW5Acag0bA_l_TgX8CzdkEJOUaZhN8PNGnJm5eAym"
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.dropbox.DropboxStorage',
+        'OPTIONS': {
+            'access_token': DROPBOX_ACCESS_TOKEN,
+            'root_path': DROPBOX_ROOT_PATH,
+            'timeout': DROPBOX_TIMEOUT,
+        },
+    },
+}
+'''
+
+
+
+# S3 Settings
+LIARA_ENDPOINT="https://storage.iran.liara.space"
+LIARA_BUCKET_NAME="ieltsways2"
+LIARA_ACCESS_KEY="lthvqv95sq0ar3u2"
+LIARA_SECRET_KEY="3a3d8ffa-fcc5-45e1-a81f-b4c0c8ff2177"
+
+# S3 Settings Based on AWS (optional)
+AWS_ACCESS_KEY_ID = LIARA_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = LIARA_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = LIARA_BUCKET_NAME
+AWS_S3_ENDPOINT_URL = LIARA_ENDPOINT
+AWS_S3_REGION_NAME = 'us-east-1'
+
+# Django-storages configuration
+STORAGES = {
+  "default": {
+      "BACKEND": "storages.backends.s3.S3Storage",
+  },
+  "staticfiles": {
+      "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+  },
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = get_env("STATIC_ROOT", default="/static/")
 STATIC_URL = get_env("STATIC_URL", default="/static/")
-MEDIA_ROOT =BASE_DIR/"media"
-MEDIA_URL = get_env("MEDIA_URL", default="/media/")
+MEDIA_ROOT = "https://ieltsways2.storage.iran.liara.space/media/"
+MEDIA_URL = "https://ieltsways2.storage.iran.liara.space/media/"
 static_file_env = get_env("STATICFILES_DIRS", optinal=True)
 
 STATICFILES_DIRS = (
