@@ -4,6 +4,7 @@ from django.db import models
 
 class TestAdmin(admin.ModelAdmin):
     list_display = ('test_id','name','skill', 'type', 'book','confirm' ,'is_expired')
+    search_fields = ["test_id","name"]
 admin.site.register(Test, TestAdmin)
 
 
