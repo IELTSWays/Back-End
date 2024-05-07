@@ -26,3 +26,4 @@ django-storages==1.14.2
 whitenoise
 boto3
 dropbox
+django-dbbackup==4.1.0

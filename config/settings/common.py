@@ -50,6 +50,7 @@ THIRD_PARTY_APPS = (
     "storages",
     "dropbox",
     "whitenoise",
+    "dbbackup",
 )
 
 # Apps specific for this project go here.
@@ -204,6 +205,16 @@ STORAGES = {
       "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
   },
 }
+
+
+
+DBBACKUP_STORAGE = 'storages.backends.s3.S3Storage'
+DBBACKUP_STORAGE_OPTIONS = {'location': 'dbbackup/'}
+DBBACKUP_CLEANUP_KEEP = 7
+
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)
