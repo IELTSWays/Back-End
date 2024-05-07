@@ -2,6 +2,7 @@ from django.contrib import admin
 from exam.models import Test, TestPrice, SpeakingTest, WritingTest, TestHistory
 from django.db import models
 
+
 class TestAdmin(admin.ModelAdmin):
     list_display = ('test_id','name','skill', 'type', 'book','confirm' ,'is_expired')
     search_fields = ["test_id","name"]
