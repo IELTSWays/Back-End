@@ -1,5 +1,5 @@
 from django.contrib import admin
-from exam.models import Test, TestPrice, SpeakingTest, WritingTest, TestHistory
+from exam.models import Test, TestPrice, SpeakingTest, WritingTest, TestHistory, Note
 from django.db import models
 
 
@@ -30,3 +30,9 @@ admin.site.register(WritingTest, WritingTestAdmin)
 class TestHistoryAdmin(admin.ModelAdmin):
     list_display = ('test','user','band_score', 'raw_score')
 admin.site.register(TestHistory, TestHistoryAdmin)
+
+
+
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ('test', 'user', 'type')
+admin.site.register(Note, NoteAdmin)

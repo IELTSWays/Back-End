@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from exam.models import Test, WritingTest, SpeakingTest, TestHistory
+from exam.models import Test, WritingTest, SpeakingTest, TestHistory, Note
 from teacher.serializers import TeacherSerializer, ReserveTimesSerializer
 from accounts.serializers import UserSerializer
 
@@ -8,6 +8,12 @@ class TestSerializer(serializers.ModelSerializer):
         model = Test
         #fields = "__all__"
         fields = ("id", "test_id", "name", "skill", "type", "user", "book", "created_at", "is_expired", "confirm", "confirm_at", "test_done", "answers")
+
+
+class ShortTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = ("id", "test_id", "name", "skill", "type")
 
 
 class AnswerSerializer(serializers.Serializer):
@@ -63,4 +69,19 @@ class SpeakingCreateTestSerializer(serializers.ModelSerializer):
 class TestHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = TestHistory
+        fields = "__all__"
+
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    test = ShortTestSerializer(read_only=True)
+    class Meta:
+        model = Note
+        fields = "__all__"
+
+
+class CreateNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
         fields = "__all__"

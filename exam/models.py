@@ -132,8 +132,6 @@ class WritingTest(models.Model):
 
 
 
-
-
 class TestHistory(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -145,3 +143,16 @@ class TestHistory(models.Model):
     def __str__(self):
         return str(self.test) +'|'+ str(self.user) +'|'+ str(self.created_at)
 
+
+
+
+
+class Note(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type_choices = (("note","note"), ("highlight","highlight"))
+    type = models.CharField(choices=type_choices, max_length=10)
+    range = models.CharField(max_length=128,null=True,blank=True)
+    note = models.CharField(max_length=256,null=True,blank=True)
+    def __str__(self):
+        return str(self.user) +'|'+ str(self.test) +'|'+ str(self.type)
