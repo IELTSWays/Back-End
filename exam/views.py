@@ -298,6 +298,7 @@ class Report(APIView):
                                 for item in correct_answer_value:
                                     if test_answer_value == item:
                                         raw_score += 1
+                                        correct_answers_number.append(int(test_answer_key))
 
                             if test_answer_value == correct_answer_value:
                                 raw_score += 1
