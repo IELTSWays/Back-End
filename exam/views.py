@@ -337,10 +337,12 @@ class Report(APIView):
                         band_score = 7.5
                     elif raw_score >= 35 and raw_score <= 36:
                         band_score = 8
-                    elif raw_score >= 37 and raw_score <= 39:
+                    elif raw_score >= 37 and raw_score <= 38:
                         band_score = 8.5
-                    else:
+                    elif raw_score >= 39 and raw_score <= 40:
                         band_score = 9
+                    else:
+                        band_score = 0
 
                 if test.skill == "reading" and test.type == "academic":
                     if raw_score == 0:
@@ -375,8 +377,10 @@ class Report(APIView):
                         band_score = 8
                     elif raw_score >= 37 and raw_score <= 38:
                         band_score = 8.5
-                    else:
+                    elif raw_score >= 39 and raw_score <= 40:
                         band_score = 9
+                    else:
+                        band_score = 0
 
                 if test.skill == "reading" and test.type == "general":
                     if raw_score == 0:
@@ -411,8 +415,10 @@ class Report(APIView):
                         band_score = 8
                     elif raw_score == 39:
                         band_score = 8.5
-                    else:
+                    elif raw_score == 40:
                         band_score = 9
+                    else:
+                        band_score = 0
             except:
                 return Response("Error in the test correction process.", status=status.HTTP_400_BAD_REQUEST)
 
