@@ -39,7 +39,7 @@ class WritingTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WritingTest
-        fields = "__all__"
+        #fields = "__all__"
         fields = ("id", "test_id", "name", "status", "type", "user", "marker", "test_done", "created_at", "is_expired", "confirm", "confirm_at",
         "score", "task1", "task2", "amount", "description", "authority", "ref_id", "payment_method")
 
@@ -88,3 +88,5 @@ class CreateNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = "__all__"
+
+
