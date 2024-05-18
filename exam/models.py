@@ -132,6 +132,14 @@ class WritingTest(models.Model):
     def __str__(self):
         return str(self.user) +'|'+ str(self.marker) +'|'+ str(self.test_id)
 
+    def is_expired(self):
+        delta = timezone.now() - self.created_at
+        delta_time_minutes = delta.total_seconds() / 60
+        if delta_time_minutes >= 480:
+            return True
+        else:
+            return False
+
 
 
 

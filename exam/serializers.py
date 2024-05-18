@@ -33,7 +33,6 @@ class QuestionSerializer(serializers.Serializer):
 
 
 
-
 class WritingTestSerializer(serializers.ModelSerializer):
     marker = TeacherSerializer(read_only=True)
     user = UserSerializer(read_only=True)
@@ -41,6 +40,10 @@ class WritingTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = WritingTest
         fields = "__all__"
+        fields = ("id", "test_id", "name", "status", "type", "user", "marker", "test_done", "created_at", "is_expired", "confirm", "confirm_at",
+        "score", "task1", "task2", "amount", "description", "authority", "ref_id", "payment_method")
+
+
 
 
 class WritingCreateTestSerializer(serializers.ModelSerializer):
