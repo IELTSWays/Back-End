@@ -222,8 +222,8 @@ DBBACKUP_CLEANUP_KEEP = 7
 
 STATIC_ROOT = get_env("STATIC_ROOT", default="/static/")
 STATIC_URL = get_env("STATIC_URL", default="/static/")
-MEDIA_ROOT = "https://ieltsways2.storage.iran.liara.space/media/"
-MEDIA_URL = "https://ieltsways2.storage.iran.liara.space/media/"
+MEDIA_ROOT = "https://ielts-ways.storage.iran.liara.space/media/"
+MEDIA_URL = "https://ielts-ways.storage.iran.liara.space/media/"
 static_file_env = get_env("STATICFILES_DIRS", optinal=True)
 
 STATICFILES_DIRS = (
